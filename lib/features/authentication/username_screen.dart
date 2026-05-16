@@ -33,6 +33,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
     super.dispose();
   }
 
+  //매개변수 context 필요없음 ;statefulewidget의 state 내부라면 어디서든 context를 사용가능하다
   void onEmailTap() {
     if (_username.isEmpty) return;
     Navigator.of(
