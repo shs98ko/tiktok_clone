@@ -17,9 +17,11 @@ class AuthButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(width: Sizes.size1, color: Colors.grey.shade300),
         ),
+        // Stack : 내부 위젯을 추가하면 계속해서 쌓아 자리 배치하는 위젯
         child: Stack(
           alignment: Alignment.center,
           children: [
+            // Align() : stack 내 위젯을 자리조정
             Align(alignment: Alignment.centerLeft, child: icon),
             Text(
               text,
