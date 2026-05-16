@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/email_screen.dart';
+import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
@@ -23,6 +25,19 @@ class _UsernameScreenState extends State<UsernameScreen> {
         _username = _usernameController.text;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    super.dispose();
+  }
+
+  void onEmailTap() {
+    if (_username.isEmpty) return;
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => EmailScreen()));
   }
 
   @override
@@ -67,27 +82,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
               ),
             ),
             Gaps.v24,
-            FractionallySizedBox(
-              widthFactor: 1,
-              child: AnimatedContainer(
-                padding: EdgeInsets.symmetric(vertical: Sizes.size12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Sizes.size2),
-                  color: _username.isEmpty
-                      ? Colors.grey.shade200
-                      : Theme.of(context).primaryColor,
-                ),
-                duration: Duration(milliseconds: 300),
-                child: Text(
-                  "Next",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: _username.isEmpty ? Colors.grey : Colors.white,
-                    fontSize: Sizes.size16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+            GestureDetector(
+              onTap: onEmailTap,
+              child: FormButton(disabled: _username.isEmpty),
             ),
           ],
         ),
