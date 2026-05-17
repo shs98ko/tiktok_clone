@@ -85,7 +85,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
             Gaps.v24,
             GestureDetector(
               onTap: onEmailTap,
-              child: FormButton(disabled: _username.isEmpty),
+              child: FormButton(
+                buttonText: "Next",
+                disabled: _username.isEmpty,
+              ),
             ),
           ],
         ),
