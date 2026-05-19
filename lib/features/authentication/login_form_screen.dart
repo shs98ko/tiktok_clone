@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -47,6 +48,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         _formKey.currentState!.save();
       }
     }
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => InterestsScreen()));
   }
 
   void _onCleatTap() {
