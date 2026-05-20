@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 import 'package:tiktok_clone/features/onboarding/widgets/interest_button.dart';
 
 const interests = [
@@ -67,6 +68,12 @@ class _InterestsScreenState extends State<InterestsScreen> {
         _showTitle = false;
       });
     }
+  }
+
+  void _onNextTap() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => TutorialScreen()));
   }
 
   @override
@@ -136,18 +143,21 @@ class _InterestsScreenState extends State<InterestsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 1,
-        child: Container(
-          //cupertino button or text button
-          padding: EdgeInsets.symmetric(vertical: Sizes.size16),
-          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-          child: Text(
-            "Next",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: Sizes.size16,
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Container(
+            //cupertino button or text button
+            padding: EdgeInsets.symmetric(vertical: Sizes.size16),
+            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            child: Text(
+              "Next",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: Sizes.size16,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       ),
