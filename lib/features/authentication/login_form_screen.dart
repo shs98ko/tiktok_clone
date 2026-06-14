@@ -48,9 +48,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         _formKey.currentState!.save();
       }
     }
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => InterestsScreen()));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => InterestsScreen()),
+      (route) => false,
+    );
   }
 
   void _onCleatTap() {
