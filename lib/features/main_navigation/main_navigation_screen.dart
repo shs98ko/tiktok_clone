@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -25,34 +24,34 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[_selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onTap,
-        destinations: const [
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.house),
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        onTap: _onTap,
+        currentIndex: _selectedIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.house),
             label: 'Home',
           ),
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.search),
             label: 'Search',
           ),
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.plus),
-            label: 'Add',
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.plus),
+            label: 'Create',
           ),
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.solidMessage),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.tray_full),
             label: 'Inbox',
           ),
-          NavigationDestination(
-            icon: FaIcon(FontAwesomeIcons.solidUser),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.person),
             label: 'Profile',
           ),
         ],
       ),
+      tabBuilder: (context, index) => screens[index],
     );
   }
 }
