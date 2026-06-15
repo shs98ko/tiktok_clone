@@ -7,6 +7,7 @@ class NavTab extends StatelessWidget {
   final IconData icon;
   final bool isSelected;
   final Function onTap;
+  final IconData selectedIcon;
 
   const NavTab({
     super.key,
@@ -14,6 +15,7 @@ class NavTab extends StatelessWidget {
     required this.icon,
     required this.isSelected,
     required this.onTap,
+    required this.selectedIcon,
   });
 
   @override
@@ -30,7 +32,7 @@ class NavTab extends StatelessWidget {
               // ? column에 min설정을 하지않으면 기본적으로 어떤 위젯이 없다면 세로축의 최대한 공간을 차지하게됨?
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(icon, color: Colors.white),
+                FaIcon(isSelected ? selectedIcon : icon, color: Colors.white),
                 Gaps.v5,
                 Text(text, style: TextStyle(color: Colors.white)),
               ],
