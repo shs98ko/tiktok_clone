@@ -13,16 +13,6 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    //navigation을 통해 들어간 모든 화면을 똑같은 화면을 만들었다면 globalKey로 서로 다른 위젯인 것 처럼 렌더링 해줄 수 있다.
-    StfScreen(key: GlobalKey()),
-    StfScreen(key: GlobalKey()),
-    Container(),
-    StfScreen(key: GlobalKey()),
-    StfScreen(key: GlobalKey()),
-    //다른 navigation tab으로 갔다 원래 tab으로 돌아온 경우 선택된 인덱스만 보여주고 선택되지 않은 것들은 삭제되기 때문에 처음부터 다시 빌드된다
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -32,8 +22,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: screens[_selectedIndex],
-      body: screens.elementAt(_selectedIndex),
+      body: Stack(
+        children: [
+          Offstage(offstage: _selectedIndex != 0, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 1, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 3, child: StfScreen()),
+          Offstage(offstage: _selectedIndex != 4, child: StfScreen()),
+          /*
+          다른 navigation tab으로 갔다 원래 tab으로 돌아온 경우 선택된 인덱스만 보여주고 선택되지 않은 것들은 없어지기 때문에 처음부터 다시 빌드된다
+          처음부터 다시 시작하지 않기 위해 모든 화면을 그리긴 하지만 보이지는 않게, 즉 사용자에게 시각적으로 보이지 않게 한다 
+          이로인해 사용자의 족적을 파악할 수 있다
+          -> Offstage를 활용한다 기본값은 offstage: true라면 화면에 보이지 않는다 단 너무 많은 resource를 사용하지 않게 해야한다 
+          */
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.all(0),
         color: Colors.black,
