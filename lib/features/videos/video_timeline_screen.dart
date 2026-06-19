@@ -8,15 +8,23 @@ class VideoTimelineScreen extends StatefulWidget {
 }
 
 class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
+  //스크롤링할 때 애니메이션 차이로 인해 앱이 느려지기 때문에 애니메이션을 커스텀한다.
+  //-> controller은 builder 바깥에 있고, widget을 컨트롤할 수 있다.
+  final PageController _pageController = PageController();
   int _itemCount = 4;
 
   List<Color> colors = [Colors.blue, Colors.amber, Colors.yellow, Colors.teal];
 
   void _onPageChanged(int pageIndex) {
+    _pageController.animateToPage(
+      pageIndex,
+      duration: Duration(microseconds: 150),
+      curve: Curves.linear,
+    );
     if (pageIndex == _itemCount - 1) {
       _itemCount += 4;
       colors.addAll([Colors.blue, Colors.amber, Colors.yellow, Colors.teal]);
-      //addAll : 한 리스트에 있는 모든 항목들을 다른 리스트에 추가한다.
+      //addAll : 한 리스트에 있는 모든 항목들을 다른 리스트에 추가한다. 나중엔 백엔드에서 데이터를 불러온다.
     }
     setState(() {});
   }
@@ -24,6 +32,7 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      controller: _pageController,
       //listView.builder와 마찬가지로 데이터를 한번에 불러오는 것이 아닌 필요할 때 불러온다.
       scrollDirection: Axis.vertical,
       onPageChanged: _onPageChanged,
