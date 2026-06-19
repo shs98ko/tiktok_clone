@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class NavTab extends StatelessWidget {
   final String text;
@@ -32,9 +33,16 @@ class NavTab extends StatelessWidget {
               // ? column에 min설정을 하지않으면 기본적으로 어떤 위젯이 없다면 세로축의 최대한 공간을 차지하게됨?
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(isSelected ? selectedIcon : icon, color: Colors.white),
+                FaIcon(
+                  isSelected ? selectedIcon : icon,
+                  color: Colors.white,
+                  size: Sizes.size20,
+                ),
                 Gaps.v5,
-                Text(text, style: TextStyle(color: Colors.white)),
+                Text(
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: Sizes.size10),
+                ),
               ],
             ),
           ),
