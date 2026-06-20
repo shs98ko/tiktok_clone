@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoComments extends StatefulWidget {
@@ -40,9 +41,113 @@ class _VideoCommentsState extends State<VideoComments> {
             ),
           ],
         ),
-        body: ListView.builder(
+        body: ListView.separated(
+          padding: EdgeInsets.symmetric(
+            vertical: Sizes.size5,
+            horizontal: Sizes.size16,
+          ),
+          separatorBuilder: (context, index) => Gaps.v12,
           itemCount: 10,
-          itemBuilder: (context, index) => Container(child: Text("i comment")),
+          itemBuilder: (context, index) => Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: Sizes.size16,
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                child: Text("Name", style: TextStyle(fontSize: Sizes.size10)),
+              ),
+              Gaps.h8,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "gamapsfun",
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: Sizes.size12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      "That's not it l've seen the same thing but also in a cave",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: Sizes.size14,
+                      ),
+                    ),
+                    Gaps.v2,
+                    Row(
+                      children: [
+                        Text(
+                          "createdAt",
+                          style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontSize: Sizes.size12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Gaps.h4,
+                        Text(
+                          "Reply",
+                          style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontSize: Sizes.size12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Gaps.v8,
+                    Row(
+                      children: [
+                        Text(
+                          "View replies(194)",
+                          style: TextStyle(
+                            color: Colors.grey.shade700,
+                            fontSize: Sizes.size12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Gaps.h4,
+                        FaIcon(
+                          FontAwesomeIcons.angleDown,
+                          size: Sizes.size12,
+                          color: Colors.grey.shade700,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Gaps.h10,
+              Column(
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.heart,
+                    size: Sizes.size20,
+                    color: Colors.grey.shade700,
+                  ),
+                  Text("52.2k", style: TextStyle(color: Colors.grey.shade700)),
+                ],
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: Sizes.size56,
+          color: Colors.white,
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: Sizes.size16,
+                backgroundColor: Colors.grey.shade500,
+                foregroundColor: Colors.white,
+                child: Text("Name", style: TextStyle(fontSize: Sizes.size10)),
+              ),
+            ],
+          ),
         ),
       ),
     );

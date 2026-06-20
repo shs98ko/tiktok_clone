@@ -45,6 +45,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
+        height: Sizes.size52,
         padding: EdgeInsets.all(Sizes.size6),
         color: Colors.black,
         child: Row(
