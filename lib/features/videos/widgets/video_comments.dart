@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -11,8 +13,22 @@ class VideoComments extends StatefulWidget {
 }
 
 class _VideoCommentsState extends State<VideoComments> {
+  bool _isWriting = false;
   void _onClosePressed() {
     Navigator.of(context).pop();
+  }
+
+  void _dismissKeyboard() {
+    FocusScope.of(context).unfocus();
+    setState(() {
+      _isWriting = false;
+    });
+  }
+
+  void _onStartWriting() {
+    setState(() {
+      _isWriting = true;
+    });
   }
 
   @override
@@ -44,155 +60,200 @@ class _VideoCommentsState extends State<VideoComments> {
             ),
           ],
         ),
-        body: Stack(
-          children: [
-            ListView.separated(
-              padding: EdgeInsets.symmetric(
-                vertical: Sizes.size5,
-                horizontal: Sizes.size16,
-              ),
-              separatorBuilder: (context, index) => Gaps.v12,
-              itemCount: 10,
-              itemBuilder: (context, index) => Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: Sizes.size16,
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    child: Text(
-                      "Name",
-                      style: TextStyle(fontSize: Sizes.size10),
+        body: GestureDetector(
+          onTap: _dismissKeyboard,
+          child: Stack(
+            children: [
+              ListView.separated(
+                padding: EdgeInsets.symmetric(
+                  vertical: Sizes.size5,
+                  horizontal: Sizes.size16,
+                ),
+                separatorBuilder: (context, index) => Gaps.v12,
+                itemCount: 10,
+                itemBuilder: (context, index) => Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: Sizes.size16,
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      child: Text(
+                        "Name",
+                        style: TextStyle(fontSize: Sizes.size10),
+                      ),
                     ),
-                  ),
-                  Gaps.h8,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "gamapsfun",
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            fontSize: Sizes.size12,
-                            fontWeight: FontWeight.w400,
+                    Gaps.h8,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "gamapsfun",
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontSize: Sizes.size12,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "That's not it l've seen the same thing but also in a cave",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: Sizes.size14,
+                          Text(
+                            "That's not it l've seen the same thing but also in a cave",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: Sizes.size14,
+                            ),
                           ),
-                        ),
-                        Gaps.v2,
-                        Row(
-                          children: [
-                            Text(
-                              "createdAt",
-                              style: TextStyle(
+                          Gaps.v2,
+                          Row(
+                            children: [
+                              Text(
+                                "createdAt",
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: Sizes.size12,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                              Gaps.h4,
+                              Text(
+                                "Reply",
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: Sizes.size12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Gaps.v8,
+                          Row(
+                            children: [
+                              Text(
+                                "View replies(194)",
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: Sizes.size12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Gaps.h4,
+                              FaIcon(
+                                FontAwesomeIcons.angleDown,
+                                size: Sizes.size12,
                                 color: Colors.grey.shade700,
-                                fontSize: Sizes.size12,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Gaps.h10,
+                    Column(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.heart,
+                          size: Sizes.size20,
+                          color: Colors.grey.shade700,
+                        ),
+                        Text(
+                          "52.2k",
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                width: size.width,
+                child: BottomAppBar(
+                  // height: Sizes.size52,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: Sizes.size16,
+                          backgroundColor: Colors.grey.shade500,
+                          foregroundColor: Colors.white,
+                          child: Text(
+                            "Name",
+                            style: TextStyle(fontSize: Sizes.size10),
+                          ),
+                        ),
+                        Gaps.h8,
+                        Expanded(
+                          child: TextField(
+                            onTap: _onStartWriting,
+                            expands: true,
+                            minLines: null,
+                            maxLines: null,
+                            textInputAction: TextInputAction.newline,
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                              hintText: "Add comment...",
+                              hintStyle: TextStyle(
+                                fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w300,
                               ),
-                            ),
-                            Gaps.h4,
-                            Text(
-                              "Reply",
-                              style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontSize: Sizes.size12,
-                                fontWeight: FontWeight.w400,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  Sizes.size12,
+                                ),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey.shade200,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.at,
+                                      color: Colors.grey.shade900,
+                                      size: Sizes.size20,
+                                    ),
+                                    Gaps.h16,
+                                    FaIcon(
+                                      FontAwesomeIcons.gift,
+                                      color: Colors.grey.shade900,
+                                      size: Sizes.size20,
+                                    ),
+                                    Gaps.h16,
+                                    FaIcon(
+                                      FontAwesomeIcons.faceSmile,
+                                      color: Colors.grey.shade900,
+                                      size: Sizes.size20,
+                                    ),
+                                    Gaps.h16,
+                                    if (_isWriting)
+                                      GestureDetector(
+                                        onTap: _dismissKeyboard,
+                                        child: FaIcon(
+                                          FontAwesomeIcons.circleArrowUp,
+                                          color: Theme.of(context).primaryColor,
+                                          size: Sizes.size20,
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                        Gaps.v8,
-                        Row(
-                          children: [
-                            Text(
-                              "View replies(194)",
-                              style: TextStyle(
-                                color: Colors.grey.shade700,
-                                fontSize: Sizes.size12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Gaps.h4,
-                            FaIcon(
-                              FontAwesomeIcons.angleDown,
-                              size: Sizes.size12,
-                              color: Colors.grey.shade700,
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Gaps.h10,
-                  Column(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.heart,
-                        size: Sizes.size20,
-                        color: Colors.grey.shade700,
-                      ),
-                      Text(
-                        "52.2k",
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              width: size.width,
-              child: BottomAppBar(
-                // height: Sizes.size52,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: Sizes.size16,
-                        backgroundColor: Colors.grey.shade500,
-                        foregroundColor: Colors.white,
-                        child: Text(
-                          "Name",
-                          style: TextStyle(fontSize: Sizes.size10),
-                        ),
-                      ),
-                      Gaps.h8,
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Add comment...",
-                            hintStyle: TextStyle(
-                              fontSize: Sizes.size14,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(Sizes.size12),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey.shade200,
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
