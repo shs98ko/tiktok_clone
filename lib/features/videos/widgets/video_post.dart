@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_commu_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -72,7 +73,9 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+    if (info.visibleFraction == 1 &&
+        !_isPaused &&
+        !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
   }
@@ -88,6 +91,17 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  void _onCommentTap(BuildContext context) async {
+    if (_videoPlayerController.value.isPlaying) {
+      _togglePause();
+    }
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) => VideoComments(),
+    );
+    _togglePause();
   }
 
   @override
@@ -176,9 +190,12 @@ class _VideoPostState extends State<VideoPost>
                   text: "2.9M",
                 ),
                 Gaps.v24,
-                VideoCommuButton(
-                  icon: FontAwesomeIcons.solidComment,
-                  text: "33.0k",
+                GestureDetector(
+                  onTap: () => _onCommentTap(context),
+                  child: VideoCommuButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: "33.0k",
+                  ),
                 ),
                 Gaps.v24,
                 VideoCommuButton(icon: FontAwesomeIcons.share, text: "Share"),
