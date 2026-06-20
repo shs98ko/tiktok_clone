@@ -17,6 +17,7 @@ class VideoPost extends StatefulWidget {
   State<VideoPost> createState() => _VideoPostState();
 }
 
+// singleTickerProviderStateMixin: animation의 프레임마다 위젯이 화면에 보일 때만 tick하는 Ticker가 있는 클래스
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
   final VideoPlayerController _videoPlayerController =
@@ -47,6 +48,7 @@ class _VideoPostState extends State<VideoPost>
     super.initState();
     _initVideoPlayer(); //비디오를 재생시키려면 컨트롤러를 무조건 초기화시켜야 한다.
     _animationController = AnimationController(
+      // vsync : 위젯이 위젯 tree에 있을 때만 Ticker를 유지하도록 animation 재생을 도와준다
       vsync: this,
       lowerBound: 1.0,
       upperBound: 1.5,
