@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_commu_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -20,8 +23,7 @@ class VideoPost extends StatefulWidget {
 // singleTickerProviderStateMixin: animation의 프레임마다 위젯이 화면에 보일 때만 tick하는 Ticker가 있는 클래스
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/test.mp4");
+  late final VideoPlayerController _videoPlayerController;
   final Duration _animationDuration = Duration(milliseconds: 200);
 
   late final AnimationController _animationController;
@@ -38,7 +40,11 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController = VideoPlayerController.asset(
+      "assets/videos/test.mp4",
+    );
     await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
   }
@@ -120,6 +126,63 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 10,
+            right: 100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "@gmapsfun",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: Sizes.size16,
+                  ),
+                ),
+                Gaps.v8,
+                Text(
+                  "This is actually the place 😄",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                VideoCaption(
+                  text:
+                      "#googleearth, #googlemaps, #googleearth #googlemaps,#googleearth, #googlemaps ",
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 10,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  foregroundImage: NetworkImage("url"),
+                  child: Text("Name"),
+                ),
+                Gaps.v24,
+                VideoCommuButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: "2.9M",
+                ),
+                Gaps.v24,
+                VideoCommuButton(
+                  icon: FontAwesomeIcons.solidComment,
+                  text: "33.0k",
+                ),
+                Gaps.v24,
+                VideoCommuButton(icon: FontAwesomeIcons.share, text: "Share"),
+              ],
             ),
           ),
         ],
