@@ -99,6 +99,8 @@ class _VideoPostState extends State<VideoPost>
     }
     await showModalBottomSheet(
       context: context,
+      //bottom sheet안에서 list view를 사용한다면 높이 조절을 하기 위해 widget뿐만 아니라 sheet에도 설정해줘야 한다
+      isScrollControlled: true,
       builder: (context) => VideoComments(),
     );
     _togglePause();
