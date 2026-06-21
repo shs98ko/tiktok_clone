@@ -48,7 +48,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       bottomNavigationBar: BottomAppBar(
         height: Sizes.size52,
         padding: EdgeInsets.all(Sizes.size6),
-        color: Colors.black,
+        color: _selectedIndex == 0 ? Colors.black : Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,6 +59,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               selectedIcon: FontAwesomeIcons.house,
               isSelected: _selectedIndex == 0,
               onTap: () => _onTap(0),
+              selectedIndex: _selectedIndex,
             ),
             NavTab(
               text: 'Discover',
@@ -66,11 +67,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               selectedIcon: FontAwesomeIcons.solidCompass,
               isSelected: _selectedIndex == 1,
               onTap: () => _onTap(1),
+              selectedIndex: _selectedIndex,
             ),
             Gaps.h16,
             GestureDetector(
               onTap: _onPostVideoButtonTap,
-              child: PostVideoButton(),
+              child: PostVideoButton(selectedIndex: _selectedIndex),
             ),
             Gaps.h16,
             NavTab(
@@ -79,6 +81,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               selectedIcon: FontAwesomeIcons.solidMessage,
               isSelected: _selectedIndex == 3,
               onTap: () => _onTap(3),
+              selectedIndex: _selectedIndex,
             ),
             NavTab(
               text: 'Profile',
@@ -86,6 +89,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               selectedIcon: FontAwesomeIcons.solidUser,
               isSelected: _selectedIndex == 4,
               onTap: () => _onTap(4),
+              selectedIndex: _selectedIndex,
             ),
           ],
         ),
