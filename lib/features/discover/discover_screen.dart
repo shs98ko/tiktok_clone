@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -5,16 +6,37 @@ import 'package:tiktok_clone/constants/sizes.dart';
 
 final tabs = ["Top", "Users", "Videos", "Sounds", "LIVE", "Shopping"];
 
-class DiscoverScreen extends StatelessWidget {
+class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
+
+  @override
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
+}
+
+class _DiscoverScreenState extends State<DiscoverScreen> {
+  final TextEditingController _textEditingController = TextEditingController(
+    text: "initial Text",
+  );
+  void _onSearchChanged(String value) {
+    print(value);
+  }
+
+  void _onSearchSubmitted(String value) {
+    print(value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text("Discover"),
+          title: CupertinoSearchTextField(
+            controller: _textEditingController,
+            onChanged: _onSearchChanged,
+            onSubmitted: _onSearchSubmitted,
+          ),
           //bottom : preferredSizeWidget => 위젯 자체는 특정사이즈를 가지려고 하지만 그 위젯 안의 자식요소가 부모요소의 크기제한을 받지 않는다
           bottom: TabBar(
             padding: EdgeInsets.only(left: 0),
@@ -34,6 +56,7 @@ class DiscoverScreen extends StatelessWidget {
           children: [
             //gridView: delegate는 controller와 다르게 도우미 역할이다
             GridView.builder(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: EdgeInsets.all(Sizes.size8),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 // 가로로 몇개의 column을 가질지를 정해준다
@@ -46,14 +69,20 @@ class DiscoverScreen extends StatelessWidget {
               itemBuilder: (context, index) => Column(
                 children: [
                   //AspectRatio: 특정한 비율을 따르는 위젯을 만들어준다 fit을 써서 부모요소에 어떤방식으로 적용할 지 정함
-                  AspectRatio(
-                    aspectRatio: 9 / 16,
-                    //FadeInImage: 네트워크를통해 받아오는 동안 로컬에 있는 이미지를 보여주고 완료되면 네트워크 이미지를 보여준다
-                    child: FadeInImage.assetNetwork(
-                      fit: BoxFit.cover,
-                      placeholder: "assets/images/test.jpg",
-                      image:
-                          "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+                  Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Sizes.size4),
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 9 / 16,
+                      //FadeInImage: 네트워크를통해 받아오는 동안 로컬에 있는 이미지를 보여주고 완료되면 네트워크 이미지를 보여준다
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        placeholder: "assets/images/test.jpg",
+                        image:
+                            "https://images.unsplash.com/photo-1673844969019-c99b0c933e90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80",
+                      ),
                     ),
                   ),
                   Gaps.v10,
