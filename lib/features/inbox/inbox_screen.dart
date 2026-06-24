@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 
 class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
 
   void _onDmPressed() {}
+
+  void _onActivityTap(BuildContext context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => ActivityScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +33,7 @@ class InboxScreen extends StatelessWidget {
           //ListTile : 리스트들의 많은 기능 사용할 수 있는 위젯이다. trailing 맨뒤, leading 맨앞 아이콘
           //분리된 tile을 만들기위해선 ListView.separated를 이용하여 itembuilder 설정을 해줘야함(나중에)
           ListTile(
+            onTap: () => _onActivityTap(context),
             title: Text(
               "Activity",
               style: TextStyle(
