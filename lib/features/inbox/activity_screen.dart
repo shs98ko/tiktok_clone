@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/onboarding/tutorial_screen.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -11,21 +10,59 @@ class ActivityScreen extends StatefulWidget {
   State<ActivityScreen> createState() => _ActivityScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _ActivityScreenState extends State<ActivityScreen>
+    with SingleTickerProviderStateMixin {
   final List<String> _notfications = List.generate(
     20,
     (index) => ("${index + 1}h"),
   );
+
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: Duration(milliseconds: 200),
+  );
+  // 애니메이션 보여주는 2가지 방법
+  // 1. AnimationController의 value를 수정하고 Controller에 enventListener를 추가하고 setState를 하면 그게 build메소드를 실행시키고 사용자에게 애니메이션을 보여진다.
+  // 2. Animation Builder를 사용하여 1번방식을 대신 해준다.
+  // 이코드는 animation을 사용하면서도 2가지 방법을 사용하지 않아도 된다.
+
+  late final Animation<double> _animation = Tween(
+    begin: 0.0,
+    end: 0.5,
+  ).animate(_animationController);
 
   void _onDismissed(String notification) {
     _notfications.remove(notification);
     setState(() {});
   }
 
+  void _onTitleTap() {
+    if (_animation.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("All Activity")),
+      appBar: AppBar(
+        title: GestureDetector(
+          onTap: _onTitleTap,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("All Activity"),
+              Gaps.h2,
+              RotationTransition(
+                turns: _animation,
+                child: FaIcon(FontAwesomeIcons.chevronDown, size: Sizes.size14),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: ListView(
         children: [
           Gaps.v14,
