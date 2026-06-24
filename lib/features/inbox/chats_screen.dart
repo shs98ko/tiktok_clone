@@ -2,8 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
-class ChatsScreen extends StatelessWidget {
+class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
+
+  @override
+  State<ChatsScreen> createState() => _ChatsScreenState();
+}
+
+class _ChatsScreenState extends State<ChatsScreen> {
+  final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
+
+  final List<int> _item = [];
+
+  void _addItem() {
+    if (_key.currentState != null) {
+      _key.currentState!.insertItem(
+        _item.length,
+        duration: Duration(milliseconds: 400),
+      );
+      _item.add(_item.length);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,37 +30,50 @@ class ChatsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Direct Messages"),
         actions: [
-          IconButton(onPressed: () {}, icon: FaIcon(FontAwesomeIcons.plus)),
+          IconButton(onPressed: _addItem, icon: FaIcon(FontAwesomeIcons.plus)),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: Sizes.size10),
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              foregroundImage: NetworkImage(
-                "https://avatars.githubusercontent.com/u/3612017",
-              ),
-              child: Text("Nico"),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text("Nico", style: TextStyle(fontWeight: FontWeight.w600)),
-                Text(
-                  "2:16 PM",
-                  style: TextStyle(
-                    color: Colors.grey.shade500,
-                    fontSize: Sizes.size12,
+      //AnimationList로도 listveiw.builder와 listTile의 기능을 똑같이 사용가능하고
+      //리스트의 아이템들을 animate해준다. 아이템이 실시간으로 반영될 때 유용함
+      //또한 itemcount가 없어 key를 추가하여 메서드를 활용하여 item을 추가한다.
+      body: AnimatedList(
+        key: _key,
+        itemBuilder: (context, index, animation) {
+          return FadeTransition(
+            key: UniqueKey(),
+            opacity: animation,
+            child: SizeTransition(
+              sizeFactor: animation,
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  foregroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/3612017",
                   ),
+                  child: Text("Nico"),
                 ),
-              ],
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Nico($index)",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      "2:16 PM",
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: Sizes.size12,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Text("Say hi to AntonioBM"),
+              ),
             ),
-            subtitle: Text("Say hi to AntonioBM"),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
