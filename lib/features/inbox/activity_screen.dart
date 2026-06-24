@@ -24,6 +24,9 @@ class _ActivityScreenState extends State<ActivityScreen>
     {"title": "Followers", "icon": FontAwesomeIcons.solidUser},
     {"title": "From TikTok", "icon": FontAwesomeIcons.tiktok},
   ];
+
+  bool _showBarrier = false;
+
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: Duration(milliseconds: 200),
@@ -44,17 +47,25 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: Offset(0, 0),
   ).animate(_animationController);
 
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
   void _onDismissed(String notification) {
     _notifications.remove(notification);
     setState(() {});
   }
 
-  void _onTitleTap() {
+  void _toggleAnimations() async {
     if (_arrowAnimation.isCompleted) {
-      _animationController.reverse();
+      await _animationController.reverse();
     } else {
       _animationController.forward();
     }
+    setState(() {
+      _showBarrier = !_showBarrier;
+    });
   }
 
   @override
@@ -62,7 +73,7 @@ class _ActivityScreenState extends State<ActivityScreen>
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
-          onTap: _onTitleTap,
+          onTap: _toggleAnimations,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -174,6 +185,13 @@ class _ActivityScreenState extends State<ActivityScreen>
                 ),
             ],
           ),
+          if (_showBarrier)
+            //AnimatedModalBarrier: 패널 뒤에 있는 오버레이를 말그대로 팝업(modal)의 장벽으로 이부분을 어둡게하여 일어나는 모든 이벤트를 무시하도록 만들어주는 위젯
+            AnimatedModalBarrier(
+              color: _barrierAnimation,
+              dismissible: true,
+              onDismiss: _toggleAnimations,
+            ),
           SlideTransition(
             position: _panelAnimation,
             child: Container(
