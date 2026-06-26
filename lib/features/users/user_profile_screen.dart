@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -15,8 +16,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       //slivers: customScrollView 안에 들어간 Element들이지만 모든 위젯을 넣을 수 있는 건 아님
       slivers: [
         SliverAppBar(
-          snap: true,
-          floating: true,
           stretch: true,
           pinned: true,
           backgroundColor: Colors.teal,
@@ -40,10 +39,31 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             childCount: 50,
             (context, index) => Container(
               color: Colors.amber[100 * (index % 9)],
-              child: Text("Item $index"),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text("Item $index"),
+              ),
             ),
           ),
           itemExtent: 100,
+        ),
+        SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            childCount: 50,
+            (context, index) => Container(
+              color: Colors.blue[100 * (index % 9)],
+              child: Align(
+                alignment: Alignment.center,
+                child: Text("Item $index"),
+              ),
+            ),
+          ),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 100,
+            mainAxisSpacing: Sizes.size20,
+            crossAxisSpacing: Sizes.size20,
+            childAspectRatio: 1,
+          ),
         ),
       ],
     );
