@@ -15,6 +15,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       //slivers: customScrollView 안에 들어간 Element들이지만 모든 위젯을 넣을 수 있는 건 아님
       slivers: [
         SliverAppBar(
+          snap: true,
           floating: true,
           stretch: true,
           pinned: true,
@@ -25,6 +26,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             stretchModes: [
               StretchMode.blurBackground,
               StretchMode.zoomBackground,
+              StretchMode.fadeTitle,
             ],
             background: Image.asset(
               "assets/images/test.jpg",
@@ -32,6 +34,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             title: const Text("Hello!"),
           ),
+        ),
+        SliverFixedExtentList(
+          delegate: SliverChildBuilderDelegate(
+            childCount: 50,
+            (context, index) => Container(
+              color: Colors.amber[100 * (index % 9)],
+              child: Text("Item $index"),
+            ),
+          ),
+          itemExtent: 100,
         ),
       ],
     );
