@@ -93,7 +93,7 @@ class CustomDelgate extends SliverPersistentHeaderDelegate {
   ) {
     return Container(
       color: Colors.blue,
-      //    FractionallySizedBox : 부모로부터 최대한 많은 공간을 차지함
+      //    FractionallySizedBox : 부모로부터 최대한 많은 공간을 차지함; 부모의 너비와 높이만큼 너비와 높이를 가짐
       child: FractionallySizedBox(
         heightFactor: 1,
         child: Center(
