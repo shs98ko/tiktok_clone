@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/users/widgets/accoun_property.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -11,107 +14,71 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    //Custom Scroll view: listview, gridview처럼 스크롤되는 뷰이지만 더 복잡한 요구사항들을 구현가능함
     return CustomScrollView(
-      //Sliver는 스크롤가능한 구역
-
-      //slivers: customScrollView 안에 들어간 Element들이지만 모든 위젯을 넣을 수 있는 건 아님
       slivers: [
         SliverAppBar(
-          stretch: true,
-
-          backgroundColor: Colors.teal,
-          collapsedHeight: 80,
-          expandedHeight: 200,
-          flexibleSpace: FlexibleSpaceBar(
-            stretchModes: [
-              StretchMode.blurBackground,
-              StretchMode.zoomBackground,
-              StretchMode.fadeTitle,
-            ],
-            background: Image.asset(
-              "assets/images/test.jpg",
-              fit: BoxFit.cover,
+          title: Text("HoSeok"),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: FaIcon(FontAwesomeIcons.gear, size: Sizes.size20),
             ),
-            title: const Text("Hello!"),
-          ),
+          ],
         ),
-
-        //SliverToBoxAdapter: CustomSrollView에 모든 위젯을 넣을수 있는 방법이다
         SliverToBoxAdapter(
           child: Column(
-            children: [CircleAvatar(backgroundColor: Colors.red, radius: 20)],
-          ),
-        ),
-
-        SliverFixedExtentList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 50,
-            (context, index) => Container(
-              color: Colors.amber[100 * (index % 9)],
-              child: Align(
-                alignment: Alignment.center,
-                child: Text("Item $index"),
+            children: [
+              CircleAvatar(
+                radius: 50,
+                foregroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/102948397?v=4",
+                ),
+                child: Text("호석"),
               ),
-            ),
-          ),
-          itemExtent: 100,
-        ),
-
-        //slivarPersistentHeader는 delegate를 상속받은 클래스로 설정해야 동작된다.
-        SliverPersistentHeader(delegate: CustomDelgate(), floating: true),
-
-        SliverGrid(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 50,
-            (context, index) => Container(
-              color: Colors.blue[100 * (index % 9)],
-              child: Align(
-                alignment: Alignment.center,
-                child: Text("Item $index"),
+              Gaps.v16,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("@hoseok"),
+                  Gaps.h5,
+                  FaIcon(
+                    FontAwesomeIcons.solidCircleCheck,
+                    size: Sizes.size16,
+                    color: Colors.blue.shade300,
+                  ),
+                ],
               ),
-            ),
-          ),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 100,
-            mainAxisSpacing: Sizes.size20,
-            crossAxisSpacing: Sizes.size20,
-            childAspectRatio: 1,
+              Gaps.v16,
+              SizedBox(
+                //verticlaDivider: 특정 높이를 가진 father를 필요로 함
+                height: Sizes.size52,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AccounProperty(number: "37", title: "Following"),
+                    VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      color: Colors.grey.shade300,
+                      indent: Sizes.size10,
+                      endIndent: Sizes.size10,
+                    ),
+                    AccounProperty(number: "10.5M", title: "Followers"),
+                    VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      color: Colors.grey.shade300,
+                      indent: Sizes.size10,
+                      endIndent: Sizes.size10,
+                    ),
+                    AccounProperty(number: "149.3M", title: "Likes"),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
-  }
-}
-
-class CustomDelgate extends SliverPersistentHeaderDelegate {
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(
-      color: Colors.blue,
-      //    FractionallySizedBox : 부모로부터 최대한 많은 공간을 차지함
-      child: FractionallySizedBox(
-        heightFactor: 1,
-        child: Center(
-          child: Text("Grid Title!!!", style: TextStyle(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  @override
-  double get maxExtent => 150;
-
-  @override
-  double get minExtent => 80;
-
-  //    shouldRebuild는 darkmode section에서 다룬다
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }
