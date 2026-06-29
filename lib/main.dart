@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 
-void main() {
+void main() async {
+  //앱을 실행하기 전에 state를 어떤 식으로든 바꾸고 싶다면 bind, widget과 engine을 initialize하고 연결을 해야한다.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  //어디서든 사용가능하다.
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
   runApp(const TikTokApp());
 }
 
@@ -41,7 +50,6 @@ class TikTokApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-
       home: MainNavigationScreen(),
     );
   }
