@@ -72,51 +72,56 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             //   onChanged: _onSearchChanged,
             //   onSubmitted: _onSearchSubmitted,
             // ),
-            title: Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: Sizes.size36,
-                    child: TextField(
-                      onChanged: _onSearchChanged,
-                      onSubmitted: _onSearchSubmitted,
-                      controller: _textEditingController,
-                      cursorColor: Theme.of(context).primaryColor,
-                      textAlignVertical: TextAlignVertical.top,
-                      textInputAction: TextInputAction.search,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FaIcon(
-                            FontAwesomeIcons.magnifyingGlass,
-                            size: Sizes.size16 + Sizes.size2,
+
+            //constrainedBox 를 감싸주므로 크기를 제한할 수 있다 하지만 container는 속성을 constraints속성을 이용하면된다.
+            title: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: Breakpoints.sm),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: Sizes.size36,
+                      child: TextField(
+                        onChanged: _onSearchChanged,
+                        onSubmitted: _onSearchSubmitted,
+                        controller: _textEditingController,
+                        cursorColor: Theme.of(context).primaryColor,
+                        textAlignVertical: TextAlignVertical.top,
+                        textInputAction: TextInputAction.search,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey.shade200,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FaIcon(
+                              FontAwesomeIcons.magnifyingGlass,
+                              size: Sizes.size16 + Sizes.size2,
+                            ),
                           ),
-                        ),
-                        suffixIcon: _hasText
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: _onClearTap,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.circleXmark,
-                                    size: Sizes.size16 + Sizes.size2,
+                          suffixIcon: _hasText
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: _onClearTap,
+                                    child: FaIcon(
+                                      FontAwesomeIcons.circleXmark,
+                                      size: Sizes.size16 + Sizes.size2,
+                                    ),
                                   ),
-                                ),
-                              )
-                            : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(Sizes.size2),
-                          borderSide: BorderSide.none,
+                                )
+                              : null,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(Sizes.size2),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Gaps.h8,
-                FaIcon(FontAwesomeIcons.toolbox),
-              ],
+                  Gaps.h8,
+                  FaIcon(FontAwesomeIcons.toolbox),
+                ],
+              ),
             ),
             //bottom : preferredSizeWidget => 위젯 자체는 특정사이즈를 가지려고 하지만 그 위젯 안의 자식요소가 부모요소의 크기제한을 받지 않는다
             bottom: TabBar(
