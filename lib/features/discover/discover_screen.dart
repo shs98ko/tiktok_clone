@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -58,6 +59,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: tabs.length,
       child: GestureDetector(
@@ -141,7 +143,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 padding: EdgeInsets.all(Sizes.size8),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   // 가로로 몇개의 column을 가질지를 정해준다
-                  crossAxisCount: 2,
+                  crossAxisCount: width > Breakpoints.lg ? 5 : 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   childAspectRatio: 9 / 21,
