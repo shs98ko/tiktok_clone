@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -30,6 +31,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
+  bool _isMuted = false;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -46,6 +48,10 @@ class _VideoPostState extends State<VideoPost>
     );
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    // kIsWeb은 이 앱이 웹에서 작동하도록 compiile 되었는지를 나타내는 constant
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
   }
@@ -107,6 +113,17 @@ class _VideoPostState extends State<VideoPost>
       builder: (context) => VideoComments(),
     );
     _togglePause();
+  }
+
+  void _onMuteTap() async {
+    if (_isMuted) {
+      await _videoPlayerController.setVolume(0);
+    } else {
+      await _videoPlayerController.setVolume(1);
+    }
+    setState(() {
+      _isMuted = !_isMuted;
+    });
   }
 
   @override
@@ -182,9 +199,19 @@ class _VideoPostState extends State<VideoPost>
             right: 10,
             child: Column(
               children: [
+                GestureDetector(
+                  onTap: _onMuteTap,
+                  child: FaIcon(
+                    _isMuted
+                        ? FontAwesomeIcons.volumeHigh
+                        : FontAwesomeIcons.volumeXmark,
+                    color: Colors.white,
+                  ),
+                ),
+                Gaps.v24,
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.blueGrey,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage("url"),
                   child: Text("Name"),
