@@ -19,9 +19,29 @@ class SignUpScreen extends StatelessWidget {
   }
 
   void _onUsernameTap(BuildContext context) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => UsernameScreen()));
+    Navigator.of(context).push(
+      //pageRoutebuilder: builder되는 pageroute에 animation,duration등 설정할 수 있게 해주는 위젯이다.
+      PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 1),
+        reverseTransitionDuration: const Duration(seconds: 1),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const UsernameScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final offsetAnimation = Tween(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation);
+          final opacityAnimation = Tween(
+            begin: 0.5,
+            end: 1.0,
+          ).animate(animation);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: FadeTransition(opacity: opacityAnimation, child: child),
+          );
+        },
+      ),
+    );
   }
 
   @override
