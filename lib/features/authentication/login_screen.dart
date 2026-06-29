@@ -3,16 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
-import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분하는 정리하는 구조
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pop(MaterialPageRoute(builder: (context) => SignUpScreen()));
+    Navigator.of(context).pop("hello");
+    //화면에 데이터를 return받을 수 있다
   }
 
   void _onEmailLoginTap(BuildContext context) {
