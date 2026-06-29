@@ -7,20 +7,18 @@ import 'package:tiktok_clone/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분해서 정리하는 구조
 
 class SignUpScreen extends StatelessWidget {
+  static const routeName = "/";
   const SignUpScreen({super.key});
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
   void _onLoginTap(BuildContext context) async {
-    //navigator.push: 화면을 기존 화면 위에 쌓음 스택의 pop, push와 동일하게 움직임
-    final result = await Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => LoginScreen()));
+    final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
     print(result);
   }
 
   void _onUsernameTap(BuildContext context) {
-    Navigator.of(context).push(
-      //pageRoutebuilder: builder되는 pageroute에 animation,duration등 설정할 수 있게 해주는 위젯이다.
+    /* Navigator.of(context).push(
+      pageRoutebuilder: builder되는 pageroute에 animation,duration등 설정할 수 있게 해주는 위젯이다.
       PageRouteBuilder(
         transitionDuration: const Duration(seconds: 1),
         reverseTransitionDuration: const Duration(seconds: 1),
@@ -41,7 +39,8 @@ class SignUpScreen extends StatelessWidget {
           );
         },
       ),
-    );
+    ); */
+    Navigator.of(context).pushNamed(UsernameScreen.routeName);
   }
 
   @override
