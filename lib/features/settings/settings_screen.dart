@@ -18,17 +18,43 @@ class SettingScreen extends StatelessWidget {
       */
       body: ListView(
         children: [
-          // ListTile(
-          //   onTap: () => showAboutDialog(
-          //     context: context,
-          //     applicationVersion: "1.0",
-          //     applicationLegalese: "All rights reserved. Please don't copy me",
-          //   ),
-          //   title: Text("About", style: TextStyle(fontWeight: FontWeight.w600)),
-          //   subtitle: Text("About this app..."),
-          // ),
+          ListTile(
+            onTap: () async {
+              final date = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1980),
+                lastDate: DateTime(2030),
+              );
+              print(date);
+              final time = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+              );
+              print(time);
+              final booking = await showDateRangePicker(
+                context: context,
+                firstDate: DateTime(1980),
+                lastDate: DateTime(2030),
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData(
+                      appBarTheme: const AppBarTheme(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+              print(booking);
+            },
+
+            title: Text("What is your birthday?"),
+          ),
           AboutListTile(),
-          //showAboutDialog 을 바로 LisTile로 사용할 수 있는 aboutListTile 위젯이 있다.
+          //showAboutDialog 을 바로 ListTile로 사용할 수 있는 aboutListTile 위젯이 있다.
         ],
       ),
     );
