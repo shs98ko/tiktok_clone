@@ -16,23 +16,19 @@ class SettingScreen extends StatelessWidget {
           -  android / web => android 로딩
           -  ios => ios 로딩
       */
-      body: ListWheelScrollView(
-        diameterRatio: 1.5,
-        offAxisFraction: 1.5,
-        itemExtent: 200,
+      body: ListView(
         children: [
-          for (var x in [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-            FractionallySizedBox(
-              widthFactor: 1,
-              child: Container(
-                color: Colors.teal,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Pick me',
-                  style: TextStyle(color: Colors.white, fontSize: 39),
-                ),
-              ),
-            ),
+          // ListTile(
+          //   onTap: () => showAboutDialog(
+          //     context: context,
+          //     applicationVersion: "1.0",
+          //     applicationLegalese: "All rights reserved. Please don't copy me",
+          //   ),
+          //   title: Text("About", style: TextStyle(fontWeight: FontWeight.w600)),
+          //   subtitle: Text("About this app..."),
+          // ),
+          AboutListTile(),
+          //showAboutDialog 을 바로 LisTile로 사용할 수 있는 aboutListTile 위젯이 있다.
         ],
       ),
     );
