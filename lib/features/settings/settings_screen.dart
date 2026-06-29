@@ -96,6 +96,31 @@ class _SettingScreenState extends State<SettingScreen> {
             },
           ),
           ListTile(
+            title: const Text("Log out (iOS / bottom)"),
+            textColor: Colors.red,
+            onTap: () {
+              //showCupertinoModalPopup과 showCupertinoModal은 바깥 영역을 클릭한다면 뒤로가기 버튼기능을 한다.
+              showCupertinoModalPopup(
+                context: context,
+                builder: (context) => CupertinoActionSheet(
+                  title: const Text("Are you sure?"),
+                  message: const Text("Please dooooont gooooo"),
+                  actions: [
+                    CupertinoActionSheetAction(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("No"),
+                    ),
+                    CupertinoActionSheetAction(
+                      onPressed: () => Navigator.of(context).pop(),
+                      isDestructiveAction: true,
+                      child: const Text("Yes"),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          ListTile(
             onTap: () async {
               final date = await showDatePicker(
                 context: context,
