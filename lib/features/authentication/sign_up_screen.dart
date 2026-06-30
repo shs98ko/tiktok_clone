@@ -12,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
   void _onLoginTap(BuildContext context) async {
-    final result = await Navigator.of(context).pushNamed(LoginScreen.routeName);
+    final result = await Navigator.pushNamed(context, LoginScreen.routeName);
     print(result);
   }
 
@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
         },
       ),
     ); */
-    Navigator.of(context).pushNamed(UsernameScreen.routeName);
+    Navigator.pushNamed(context, UsernameScreen.routeName);
   }
 
   @override
