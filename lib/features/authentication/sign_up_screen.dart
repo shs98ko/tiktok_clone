@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
@@ -12,8 +13,7 @@ class SignUpScreen extends StatelessWidget {
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
   void _onLoginTap(BuildContext context) async {
-    final result = await Navigator.pushNamed(context, LoginScreen.routeName);
-    print(result);
+    context.push(LoginScreen.routeName);
   }
 
   void _onUsernameTap(BuildContext context) {
@@ -40,7 +40,8 @@ class SignUpScreen extends StatelessWidget {
         },
       ),
     ); */
-    Navigator.pushNamed(context, UsernameScreen.routeName);
+    context.go(UsernameScreen.routeName);
+    //go : 뒤로가기 버튼이 사라지고 기존 스택관계를 끊고 스택이 0으로 초기화된다.
   }
 
   @override

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/email_screen.dart';
-import 'package:tiktok_clone/features/authentication/login_screen.dart';
-import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_clone/features/authentication/username_screen.dart';
-import 'package:tiktok_clone/features/inbox/activity_screen.dart';
-import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok_clone/router.dart';
 
 void main() async {
   //앱을 실행하기 전에 state를 어떤 식으로든 바꾸고 싶다면 bind, widget과 engine을 initialize하고 연결을 해야한다.
@@ -26,7 +21,8 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok clone',
       theme: ThemeData(
@@ -54,13 +50,6 @@ class TikTokApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      initialRoute: SignUpScreen.routeName,
-      routes: {
-        SignUpScreen.routeName: (context) => const SignUpScreen(),
-        UsernameScreen.routeName: (context) => const UsernameScreen(),
-        LoginScreen.routeName: (context) => const LoginScreen(),
-        EmailScreen.routeName: (context) => const EmailScreen(),
-      },
     );
   }
 }
