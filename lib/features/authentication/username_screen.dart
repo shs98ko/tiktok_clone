@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/email_screen.dart';
@@ -40,13 +41,17 @@ class _UsernameScreenState extends State<UsernameScreen> {
     /* Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => EmailScreen(username: _username)),
     ); */
-    Navigator.pushNamed(
-      context,
-      EmailScreen.routeName,
-      arguments: EmailScreenArgs(username: _username),
-    );
+    // Navigator.pushNamed(
+    //   context,
+    //   EmailScreen.routeName,
+    //   arguments: EmailScreenArgs(username: _username),
+    // );
     //Navigator.of(context).pushNamed로 라우팅된 화면 정보 보내는법
     //  - arguments를 이용한다
+    context.push(
+      EmailScreen.routeName,
+      extra: EmailScreenArgs(username: _username),
+    );
   }
 
   @override

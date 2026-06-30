@@ -8,7 +8,12 @@ import 'package:tiktok_clone/features/users/widgets/persistent_tab_bar.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String username;
-  const UserProfileScreen({super.key, required this.username});
+  final String tab;
+  const UserProfileScreen({
+    super.key,
+    required this.username,
+    required this.tab,
+  });
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -24,6 +29,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: widget.tab == "likes" ? 1 : 0,
       length: 2,
       //NestScrollView : ScrollView안에 또 다른 ScrollView가 중첩되어 있을 때 사용된다
       //Sliver 파라미터가 없고 hedaerSliverBuilder는 sliver들을 list로 반환해준다

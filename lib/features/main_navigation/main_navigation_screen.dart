@@ -47,7 +47,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           Offstage(offstage: _selectedIndex != 3, child: InboxScreen()),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: UserProfileScreen(username: "hoseok"),
+            child: UserProfileScreen(username: "hoseok", tab: ""),
           ),
         ],
       ),
