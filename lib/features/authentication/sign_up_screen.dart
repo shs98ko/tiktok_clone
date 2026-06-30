@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
         },
       ),
     ); */
-    context.go(UsernameScreen.routeName);
+    context.push(UsernameScreen.routeName);
     //go : 뒤로가기 버튼이 사라지고 기존 스택관계를 끊고 스택이 0으로 초기화된다.
   }
 
