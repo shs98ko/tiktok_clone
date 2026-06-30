@@ -6,7 +6,8 @@ import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
-  static const routeName = "/username";
+  static String routeURL = "username";
+  static String routeName = "username";
   const UsernameScreen({super.key});
 
   @override
@@ -48,7 +49,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
     // );
     //Navigator.of(context).pushNamed로 라우팅된 화면 정보 보내는법
     //  - arguments를 이용한다
-    context.push(
+    context.pushNamed(
       EmailScreen.routeName,
       extra: EmailScreenArgs(username: _username),
     );

@@ -7,7 +7,8 @@ import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분하는 정리하는 구조
 
 class LoginScreen extends StatelessWidget {
-  static String routeName = "/login";
+  static String routeName = "login";
+  static String routeURL = "/login";
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {

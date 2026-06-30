@@ -8,7 +8,8 @@ import 'package:tiktok_clone/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분해서 정리하는 구조
 
 class SignUpScreen extends StatelessWidget {
-  static const routeName = "/";
+  static const routeURL = "/";
+  static const routeName = "signUp";
   const SignUpScreen({super.key});
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
@@ -40,7 +41,7 @@ class SignUpScreen extends StatelessWidget {
         },
       ),
     ); */
-    context.push(UsernameScreen.routeName);
+    context.pushNamed(UsernameScreen.routeName);
     //go : 뒤로가기 버튼이 사라지고 기존 스택관계를 끊고 스택이 0으로 초기화된다.
   }
 
