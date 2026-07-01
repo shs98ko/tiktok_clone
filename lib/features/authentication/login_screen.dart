@@ -66,6 +66,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
+      //BottomAppBar대신 Container를 써도 된다.
       bottomNavigationBar: BottomAppBar(
         color: isDarkMode(context) ? null : Colors.grey.shade100,
         child: Row(

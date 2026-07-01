@@ -130,6 +130,7 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
+          //BottomAppBar대신 Container를 써도 된다.
           bottomNavigationBar: BottomAppBar(
             color: isDarkMode(context) ? null : Colors.grey.shade200,
             child: Row(
