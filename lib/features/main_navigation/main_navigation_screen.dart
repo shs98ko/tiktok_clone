@@ -41,7 +41,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final isDark = isDarkMode(context);
     return Scaffold(
       resizeToAvoidBottomInset: false, //키보드가 나타날 때 body 화면을을 자동조정하지 않게 함
-      backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
+      backgroundColor: _selectedIndex == 0 || isDark
+          ? Colors.black
+          : Colors.white,
       body: Stack(
         children: [
           Offstage(offstage: _selectedIndex != 0, child: VideoTimelineScreen()),

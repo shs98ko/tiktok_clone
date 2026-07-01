@@ -184,7 +184,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       ),
                       Gaps.v10,
                       Text(
-                        "${constraints.maxWidth}This is a very long caption for my tiktok that im upload just now currently.",
+                        "This is a very long caption for my tiktok that im upload just now currently.",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: const TextStyle(
@@ -193,7 +193,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ),
                       ),
                       Gaps.v5,
-                      if (constraints.maxWidth < 190 ||
+                      if (constraints.maxWidth < 210 ||
                           constraints.maxWidth > 230)
                         DefaultTextStyle(
                           style: TextStyle(

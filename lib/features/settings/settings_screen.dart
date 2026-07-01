@@ -41,7 +41,6 @@ class _SettingScreenState extends State<SettingScreen> {
             subtitle: const Text("They will be cute."),
           ),
           CheckboxListTile(
-            activeColor: Colors.black,
             value: _notification,
             onChanged: _onNotificationChanged,
             title: Text("Marketing Emails"),
@@ -59,7 +58,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   actions: [
                     CupertinoDialogAction(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("No"),
+                      child: const Text(
+                        "No",
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                     CupertinoDialogAction(
                       onPressed: () => Navigator.of(context).pop(),
@@ -108,7 +110,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   actions: [
                     CupertinoActionSheetAction(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("No"),
+                      child: const Text(
+                        "No",
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                     CupertinoActionSheetAction(
                       onPressed: () => Navigator.of(context).pop(),

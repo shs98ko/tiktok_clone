@@ -64,6 +64,10 @@ class TikTokApp extends StatelessWidget {
       ),
       //모든 디자인, color, background등 같은 것들은 themeData에서 설정해주고 필요시 isDarkMode로 설정해주는 것이 좋다.
       darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.white,
+          brightness: Brightness.dark,
+        ),
         brightness: Brightness.dark,
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
