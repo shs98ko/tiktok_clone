@@ -64,18 +64,23 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
               ),
             ),
             Gaps.v5,
-            const Text(
-              'Your birthday won\'t be shown publicly',
-              style: TextStyle(
-                fontSize: Sizes.size16,
-                color: Colors.black54,
-                fontWeight: FontWeight.w300,
+            Opacity(
+              opacity: 0.7,
+              child: const Text(
+                'Your birthday won\'t be shown publicly',
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
             Gaps.v20,
             TextField(
               enabled: false,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: isDarkMode(context) ? Colors.white : Colors.black,
+              ),
               controller: _birthdayController,
               cursorColor: Theme.of(context).primaryColor,
               decoration: InputDecoration(

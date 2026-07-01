@@ -35,15 +35,19 @@ class LoginScreen extends StatelessWidget {
               Gaps.v80,
               Text(
                 "Log in to TikTok",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontWeight: FontWeight.w600,
+                style: TextStyle(
+                  fontSize: Sizes.size24,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Gaps.v20,
-              Text(
-                "Manage your account, check notifications, comment on videos, and more.",
-                style: TextStyle(fontSize: Sizes.size16, color: Colors.black45),
-                textAlign: TextAlign.center,
+              Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your account, check notifications, comment on videos, and more.",
+                  style: TextStyle(fontSize: Sizes.size16),
+                  textAlign: TextAlign.center,
+                ),
               ),
               Gaps.v40,
               GestureDetector(
@@ -63,7 +67,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: isDarkMode(context) ? null : Colors.grey.shade100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
