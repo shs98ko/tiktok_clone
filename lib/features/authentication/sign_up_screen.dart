@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
@@ -15,7 +16,10 @@ class SignUpScreen extends StatelessWidget {
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
   void _onLoginTap(BuildContext context) async {
-    context.push(LoginScreen.routeName);
+    // context.push(LoginScreen.routeName);
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void _onUsernameTap(BuildContext context) {
@@ -42,8 +46,11 @@ class SignUpScreen extends StatelessWidget {
         },
       ),
     ); */
-    context.pushNamed(UsernameScreen.routeName);
+    // context.pushNamed(UsernameScreen.routeName);
     //go : 뒤로가기 버튼이 사라지고 기존 스택관계를 끊고 스택이 0으로 초기화된다.
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }
 
   @override
@@ -68,8 +75,11 @@ class SignUpScreen extends StatelessWidget {
                   Gaps.v80,
                   Text(
                     "Sign up for TikTok",
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: GoogleFonts.abrilFatface(
+                      textStyle: const TextStyle(
+                        fontSize: Sizes.size24,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                   Gaps.v20,
@@ -77,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                     opacity: 0.7,
                     child: Text(
                       "Create a profile, follow other accounts, make your own videos, and more.",
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: TextStyle(fontSize: Sizes.size16),
                       textAlign: TextAlign.center,
                     ),
                   ),

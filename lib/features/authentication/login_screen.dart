@@ -4,7 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_form_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분하는 정리하는 구조
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/utils.dart'; //feature-driven-architecture 기능 별로 구분하는 정리하는 구조
 
 class LoginScreen extends StatelessWidget {
   static String routeName = "login";
@@ -12,7 +13,8 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   void _onSignUpTap(BuildContext context) {
-    context.pop();
+    // context.pop();
+    Navigator.of(context).pop();
   }
 
   void _onEmailLoginTap(BuildContext context) {

@@ -39,9 +39,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
   //매개변수 context 필요없음; statefulwidget의 state 내부라면 어디서든 context를 사용가능하다
   void onEmailTap() {
     if (_username.isEmpty) return;
-    /* Navigator.of(context).push(
+    Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => EmailScreen(username: _username)),
-    ); */
+    );
     // Navigator.pushNamed(
     //   context,
     //   EmailScreen.routeName,
@@ -49,10 +49,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
     // );
     //Navigator.of(context).pushNamed로 라우팅된 화면 정보 보내는법
     //  - arguments를 이용한다
-    context.pushNamed(
+    /* context.pushNamed(
       EmailScreen.routeName,
       extra: EmailScreenArgs(username: _username),
-    );
+    ); */
   }
 
   @override

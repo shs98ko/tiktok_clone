@@ -44,7 +44,7 @@ class _EmailScreenState extends State<EmailScreen> {
     super.dispose();
   }
 
-  String? _isEmailVaild() {
+  String? _isEmailValid() {
     if (_email.isEmpty) return null;
     final regExp = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
@@ -60,7 +60,7 @@ class _EmailScreenState extends State<EmailScreen> {
   }
 
   void _onSubmit() {
-    if (_email.isEmpty || _isEmailVaild() != null) return;
+    if (_email.isEmpty || _isEmailValid() != null) return;
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => PasswordScreen()));
@@ -95,7 +95,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
                   hintText: "Email",
-                  errorText: _isEmailVaild(),
+                  errorText: _isEmailValid(),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey.shade300),
                   ),
@@ -109,7 +109,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 onTap: _onSubmit,
                 child: FormButton(
                   buttonText: "Next",
-                  disabled: _email.isEmpty || _isEmailVaild() != null,
+                  disabled: _email.isEmpty || _isEmailValid() != null,
                 ),
               ),
             ],
