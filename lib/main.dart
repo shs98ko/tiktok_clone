@@ -60,10 +60,14 @@ class TikTokApp extends StatelessWidget {
           unselectedLabelColor: Colors.grey.shade500,
           indicatorColor: Colors.black,
         ),
+        listTileTheme: const ListTileThemeData(iconColor: Colors.black),
       ),
       //모든 디자인, color, background등 같은 것들은 themeData에서 설정해주고 필요시 isDarkMode로 설정해주는 것이 좋다.
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
         textTheme: Typography.whiteMountainView,
         scaffoldBackgroundColor: Colors.black,
         primaryColor: Color(0xFFE9435A),
@@ -71,12 +75,20 @@ class TikTokApp extends StatelessWidget {
           color: Colors.grey.shade900,
           elevation: 0,
         ),
-        appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade900,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         tabBarTheme: TabBarThemeData(
           labelColor: Colors.white,
           unselectedLabelColor: Colors.grey.shade500,
           indicatorColor: Colors.white,
         ),
+        listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
       ),
       home: MainNavigationScreen(),
     );

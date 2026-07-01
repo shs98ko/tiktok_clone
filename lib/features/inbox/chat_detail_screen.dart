@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -30,6 +31,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -45,8 +47,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 child: Text('니꼬'),
               ),
               Positioned(
-                bottom: -3,
-                right: -2,
+                bottom: 1,
+                right: 0,
                 width: Sizes.size16,
                 height: Sizes.size16,
                 child: Container(
@@ -135,7 +137,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               ),
             ),
             BottomAppBar(
-              color: Colors.grey.shade100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,6 +155,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           hintStyle: TextStyle(
                             fontSize: Sizes.size14,
                             fontWeight: FontWeight.w300,
+                            color: isDark ? Colors.white : null,
                           ),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: Sizes.size16,
@@ -165,10 +167,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             ),
                           ),
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: isDark
+                              ? Colors.grey.shade800
+                              : Colors.white,
                           suffixIcon: Padding(
                             padding: EdgeInsets.only(top: 10, left: 10),
-                            child: FaIcon(FontAwesomeIcons.faceSmile),
+                            child: FaIcon(
+                              FontAwesomeIcons.faceSmile,
+                              color: isDark ? Colors.white : null,
+                            ),
                           ),
                         ),
                       ),
@@ -180,12 +187,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: isDark
+                          ? Colors.grey.shade500
+                          : Colors.grey.shade200,
                       shape: BoxShape.circle,
                     ),
-                    child: const FaIcon(
+                    child: FaIcon(
                       FontAwesomeIcons.solidPaperPlane,
-                      color: Colors.white,
+                      color: isDark ? Colors.black : Colors.white,
                     ),
                   ),
                 ],

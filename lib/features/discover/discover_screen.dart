@@ -114,7 +114,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                 )
                               : null,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(Sizes.size2),
+                            borderRadius: BorderRadius.circular(Sizes.size8),
                             borderSide: BorderSide.none,
                           ),
                         ),
