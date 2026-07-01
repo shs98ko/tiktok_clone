@@ -25,6 +25,7 @@ class TikTokApp extends StatelessWidget {
       routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok clone',
+      themeMode: ThemeMode.system, //themeMode : 핸드폰한테 어떤 theme을 사용할지 알려주는 기능
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         scaffoldBackgroundColor: Colors.white,
@@ -47,6 +48,16 @@ class TikTokApp extends StatelessWidget {
         ),
         bottomAppBarTheme: BottomAppBarThemeData(
           color: Colors.white,
+          elevation: 0,
+        ),
+      ),
+      //모든 디자인, color, background등 같은 것들은 themeData에서 설정해주고 필요시 isDarkMode로 설정해주는 것이 좋다.
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: Color(0xFFE9435A),
+        bottomAppBarTheme: BottomAppBarThemeData(
+          color: Colors.grey.shade900,
           elevation: 0,
         ),
       ),

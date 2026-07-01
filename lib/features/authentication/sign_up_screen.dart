@@ -5,7 +5,8 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart'; //feature-driven-architecture 기능 별로 구분해서 정리하는 구조
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_clone/utils.dart'; //feature-driven-architecture 기능 별로 구분해서 정리하는 구조
 
 class SignUpScreen extends StatelessWidget {
   static const routeURL = "/";
@@ -73,13 +74,13 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v20,
-                  const Text(
-                    "Create a profile, follow other accounts, make your own videos, and more.",
-                    style: TextStyle(
-                      fontSize: Sizes.size16,
-                      color: Colors.black45,
+                  Opacity(
+                    opacity: 0.7,
+                    child: const Text(
+                      "Create a profile, follow other accounts, make your own videos, and more.",
+                      style: TextStyle(fontSize: Sizes.size16),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   Gaps.v40,
                   //collection if에 여러 요소를 넣고 싶다면 list로 묶어 …을 사용한다.
@@ -123,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: BottomAppBar(
-            color: Colors.grey.shade100,
+            color: isDarkMode(context) ? null : Colors.grey.shade200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
