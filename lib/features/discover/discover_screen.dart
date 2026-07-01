@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 final tabs = ["Top", "Users", "Videos", "Sounds", "LIVE", "Shopping"];
 
@@ -90,7 +91,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         textInputAction: TextInputAction.search,
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey.shade200,
+                          fillColor: isDarkMode(context)
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade200,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: FaIcon(
@@ -126,17 +129,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             //bottom : preferredSizeWidget => 위젯 자체는 특정사이즈를 가지려고 하지만 그 위젯 안의 자식요소가 부모요소의 크기제한을 받지 않는다
             bottom: TabBar(
               onTap: (index) => _dismissKeyboard(),
-              padding: EdgeInsets.only(left: 0),
+              padding: EdgeInsets.symmetric(horizontal: Sizes.size16),
               splashFactory: NoSplash.splashFactory,
               isScrollable: true,
               labelStyle: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: Sizes.size16,
               ),
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey.shade500,
-              indicatorColor: Colors.black,
-              tabs: [for (var tab in tabs) Tab(text: tab)],
+              tabAlignment: TabAlignment.center,
+
+              tabs: [
+                for (var tab in tabs)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: Sizes.size16),
+                    child: Tab(text: tab),
+                  ),
+              ],
             ),
           ),
           body: TabBarView(
@@ -189,7 +197,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           constraints.maxWidth > 230)
                         DefaultTextStyle(
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: isDarkMode(context)
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade600,
                             fontWeight: FontWeight.w600,
                           ),
                           child: Row(

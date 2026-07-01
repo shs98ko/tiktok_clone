@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_clone/features/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/router.dart';
 
 void main() async {
@@ -54,6 +55,11 @@ class TikTokApp extends StatelessWidget {
           color: Colors.white,
           elevation: 0,
         ),
+        tabBarTheme: TabBarThemeData(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicatorColor: Colors.black,
+        ),
       ),
       //모든 디자인, color, background등 같은 것들은 themeData에서 설정해주고 필요시 isDarkMode로 설정해주는 것이 좋다.
       darkTheme: ThemeData(
@@ -66,8 +72,13 @@ class TikTokApp extends StatelessWidget {
           elevation: 0,
         ),
         appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900),
+        tabBarTheme: TabBarThemeData(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicatorColor: Colors.white,
+        ),
       ),
-      home: SignUpScreen(),
+      home: MainNavigationScreen(),
     );
   }
 }
