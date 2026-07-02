@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/widgets/video_flash_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -15,13 +16,40 @@ class VideoRecordingScreen extends StatefulWidget {
 1. 직접 만든 인터페이스와 버튼을 가진 카메라 만들기
 2. 사용자가 자신의 라이브러리에서 가져온 비디오중에서 선택
 3. 사용자의 폰에 있는 카메라 어플로 리다릭트해주기 */
-class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+    with TickerProviderStateMixin {
   bool _hasPermissions = false;
   bool _selfieMode = false;
 
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+
+  late final AnimationController _buttonAnimationController =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+
+  late final Animation<double> _buttonAnimation = Tween(
+    begin: 1.0,
+    end: 1.3,
+  ).animate(_buttonAnimationController);
+
+  late final AnimationController _progressAnimationController =
+      AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 10),
+        lowerBound: 0.0,
+        upperBound: 1.0,
+      );
+
+  void _startRecording(TapDownDetails _) {
+    _buttonAnimationController.forward();
+    _progressAnimationController.forward();
+  }
+
+  void _stopRecording() {
+    _buttonAnimationController.reverse();
+    _progressAnimationController.reset();
+  }
 
   Future<void> initPermissions() async {
     final cameraPermission = await Permission.camera.request();
@@ -71,6 +99,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   void initState() {
     super.initState();
     initPermissions();
+    _progressAnimationController.addListener(() {
+      setState(() {});
+    });
+    _progressAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
   }
 
   @override
@@ -114,50 +150,66 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                           ),
                         ),
                         Gaps.v10,
-                        IconButton(
-                          onPressed: () => _setFlashMode(FlashMode.off),
-                          icon: Icon(
-                            Icons.flash_off_rounded,
-                            size: Sizes.size36,
-                            color: _flashMode == FlashMode.off
-                                ? Colors.amber.shade200
-                                : Colors.white,
-                          ),
+                        VideoFlashButton(
+                          icon: Icons.flash_off_rounded,
+                          setFlashMode: _setFlashMode,
+                          currentFlashMode: _flashMode,
+                          newFlashMode: FlashMode.off,
                         ),
                         Gaps.v10,
-                        IconButton(
-                          onPressed: () => _setFlashMode(FlashMode.always),
-                          icon: Icon(
-                            Icons.flash_on_rounded,
-                            size: Sizes.size36,
-                            color: _flashMode == FlashMode.always
-                                ? Colors.amber.shade200
-                                : Colors.white,
-                          ),
+                        VideoFlashButton(
+                          icon: Icons.flash_on_rounded,
+                          setFlashMode: _setFlashMode,
+                          currentFlashMode: _flashMode,
+                          newFlashMode: FlashMode.always,
                         ),
                         Gaps.v10,
-                        IconButton(
-                          onPressed: () => _setFlashMode(FlashMode.auto),
-                          icon: Icon(
-                            Icons.flash_auto_rounded,
-                            size: Sizes.size36,
-                            color: _flashMode == FlashMode.auto
-                                ? Colors.amber.shade200
-                                : Colors.white,
-                          ),
+                        VideoFlashButton(
+                          icon: Icons.flash_auto_rounded,
+                          setFlashMode: _setFlashMode,
+                          currentFlashMode: _flashMode,
+                          newFlashMode: FlashMode.auto,
                         ),
                         Gaps.v10,
-                        IconButton(
-                          onPressed: () => _setFlashMode(FlashMode.torch),
-                          icon: Icon(
-                            Icons.flashlight_on_rounded,
-                            size: Sizes.size36,
-                            color: _flashMode == FlashMode.torch
-                                ? Colors.amber.shade200
-                                : Colors.white,
-                          ),
+                        VideoFlashButton(
+                          icon: Icons.flashlight_on_rounded,
+                          setFlashMode: _setFlashMode,
+                          currentFlashMode: _flashMode,
+                          newFlashMode: FlashMode.torch,
                         ),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: Sizes.size48,
+                    child: GestureDetector(
+                      onTapDown: _startRecording,
+                      onTapUp: (detail) => _stopRecording(),
+                      child: ScaleTransition(
+                        scale: _buttonAnimation,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: Sizes.size64,
+                              height: Sizes.size64,
+                              child: CircularProgressIndicator.adaptive(
+                                backgroundColor: Colors.red,
+                                strokeWidth: Sizes.size6,
+                                value: _progressAnimationController.value,
+                              ),
+                            ),
+                            Container(
+                              width: Sizes.size60,
+                              height: Sizes.size60,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
