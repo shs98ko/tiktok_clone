@@ -20,7 +20,7 @@ class VideoRecordingScreen extends StatefulWidget {
 2. 사용자가 자신의 라이브러리에서 가져온 비디오중에서 선택
 3. 사용자의 폰에 있는 카메라 어플로 리다릭트해주기 */
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermissions = false;
   bool _selfieMode = false;
 
@@ -97,7 +97,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
 
     await _cameraController.initialize();
+
+    await _cameraController.prepareForVideoRecording();
+
     _flashMode = _cameraController.value.flashMode;
+    setState(() {}); // Future로 지정하고싶지 않다면
   }
 
   Future<void> _toggleSelfiMode() async {
@@ -131,6 +135,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
     initPermissions();
+    WidgetsBinding.instance.addObserver(this);
     _progressAnimationController.addListener(() {
       setState(() {});
     });
@@ -139,6 +144,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         _stopRecording();
       }
     });
+  }
+
+  //application이 제거되었을때 즉 유저가 앱을 떠났을 때 카메라를 dispose해줘야 한다
+  //  background로 가는 것을 우리가 감지해야한다.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_hasPermissions) return;
+    if (!_cameraController.value.isInitialized) return;
+    if (state == AppLifecycleState.inactive) {
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      initCamera();
+    }
   }
 
   @override
