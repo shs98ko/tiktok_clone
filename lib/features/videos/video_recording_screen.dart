@@ -15,7 +15,9 @@ class VideoRecordingScreen extends StatefulWidget {
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-/* 카메라
+/*
+flutter camera 패키지 말고 cameraAwesome패키지가 기능도 많고 좋다. 
+카메라
 1. 직접 만든 인터페이스와 버튼을 가진 카메라 만들기
 2. 사용자가 자신의 라이브러리에서 가져온 비디오중에서 선택
 3. 사용자의 폰에 있는 카메라 어플로 리다릭트해주기 */
@@ -99,6 +101,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.initialize();
 
     await _cameraController.prepareForVideoRecording();
+
+    // _cameraController.getMaxZoomLevel()
+    // _cameraController.setZoomLevel(zoom)
 
     _flashMode = _cameraController.value.flashMode;
     setState(() {}); // Future로 지정하고싶지 않다면
@@ -245,6 +250,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       children: [
                         Spacer(),
                         GestureDetector(
+                          // onVerticalDragUpdate: (details) => ,
+                          // onVerticalDragDown: (details) => ,
+                          // onPanUpdate: (DragUpdateDetails details) => ,
                           onTapDown: _startRecording,
                           onTapUp: (detail) => _stopRecording(),
                           child: ScaleTransition(
