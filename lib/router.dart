@@ -3,6 +3,7 @@ import 'package:tiktok_clone/features/authentication/email_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/features/users/user_profile_screen.dart';
+import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
 //navigator 2.0은 1.0의 웹 브라우저에서 앞으로가기기능 보완과 url의 변수를 사용할 수 있도록 하여 웹, 앱 모두 작동하기 위해 사용된다.
 
 /*  ROUTER
@@ -12,7 +13,8 @@ import 'package:tiktok_clone/features/users/user_profile_screen.dart';
 */
 final router = GoRouter(
   routes: [
-    GoRoute(
+    GoRoute(path: "/", builder: (context, state) => VideoRecordingScreen()),
+    /* GoRoute(
       name: SignUpScreen.routeName,
       path: SignUpScreen.routeURL,
       builder: (context, state) => SignUpScreen(),
@@ -65,6 +67,6 @@ final router = GoRouter(
         final tab = state.queryParams['show'];
         return UserProfileScreen(username: username!, tab: tab!);
       },
-    ),
+    ), */
   ],
 );

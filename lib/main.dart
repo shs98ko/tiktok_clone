@@ -24,8 +24,8 @@ class TikTokApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // routerConfig: router,
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok clone',
       themeMode: ThemeMode.system, //themeMode : 핸드폰한테 어떤 theme을 사용할지 알려주는 기능
@@ -98,7 +98,6 @@ class TikTokApp extends StatelessWidget {
         ),
         listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
       ),
-      home: SignUpScreen(),
     );
   }
 }
