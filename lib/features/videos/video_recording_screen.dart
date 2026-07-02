@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -57,9 +59,12 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _progressAnimationController.reset();
     final video = await _cameraController.stopVideoRecording();
 
+    if (!mounted) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => VideoPreviewScreen(video: video)),
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(video: video, isPicked: false),
+      ),
     );
   }
 
@@ -105,6 +110,21 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.setFlashMode(newFlashMode);
     _flashMode = newFlashMode;
     setState(() {});
+  }
+
+  Future<void> _onPickedVideoPressed() async {
+    final video = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    ); //imagePicker를 통해 폰에 있는 카메라 어플로 리다이렉트 가능함
+    if (video == null) return;
+
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(video: video, isPicked: true),
+      ),
+    );
   }
 
   @override
@@ -202,34 +222,52 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                   ),
                   Positioned(
                     bottom: Sizes.size48,
-                    child: GestureDetector(
-                      onTapDown: _startRecording,
-                      onTapUp: (detail) => _stopRecording(),
-                      child: ScaleTransition(
-                        scale: _buttonAnimation,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            SizedBox(
-                              width: Sizes.size64,
-                              height: Sizes.size64,
-                              child: CircularProgressIndicator.adaptive(
-                                backgroundColor: Colors.red,
-                                strokeWidth: Sizes.size6,
-                                value: _progressAnimationController.value,
-                              ),
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        GestureDetector(
+                          onTapDown: _startRecording,
+                          onTapUp: (detail) => _stopRecording(),
+                          child: ScaleTransition(
+                            scale: _buttonAnimation,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SizedBox(
+                                  width: Sizes.size64,
+                                  height: Sizes.size64,
+                                  child: CircularProgressIndicator.adaptive(
+                                    backgroundColor: Colors.red,
+                                    strokeWidth: Sizes.size6,
+                                    value: _progressAnimationController.value,
+                                  ),
+                                ),
+                                Container(
+                                  width: Sizes.size60,
+                                  height: Sizes.size60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              width: Sizes.size60,
-                              height: Sizes.size60,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: IconButton(
+                              onPressed: _onPickedVideoPressed,
+                              icon: FaIcon(
+                                FontAwesomeIcons.image,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
