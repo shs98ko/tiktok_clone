@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   const VideoRecordingScreen({super.key});
@@ -16,6 +18,7 @@ class VideoRecordingScreen extends StatefulWidget {
 3. 사용자의 폰에 있는 카메라 어플로 리다릭트해주기 */
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermissions = false;
+  bool _selfieMode = false;
 
   late CameraController _cameraController;
 
@@ -43,11 +46,17 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       return;
     }
     _cameraController = CameraController(
-      cameras[1],
+      cameras[_selfieMode ? 0 : 1],
       ResolutionPreset.ultraHigh,
     );
 
     await _cameraController.initialize();
+  }
+
+  Future<void> _toggleSelfiMode() async {
+    _selfieMode = !_selfieMode;
+    await initCamera();
+    setState(() {});
   }
 
   @override
@@ -78,7 +87,23 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
               )
             : Stack(
                 alignment: Alignment.center,
-                children: [CameraPreview(_cameraController)],
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: CameraPreview(_cameraController),
+                  ),
+                  Positioned(
+                    top: Sizes.size36,
+                    left: Sizes.size20,
+                    child: IconButton(
+                      onPressed: _toggleSelfiMode,
+                      icon: Icon(
+                        Icons.cameraswitch_outlined,
+                        size: Sizes.size36,
+                      ),
+                    ),
+                  ),
+                ],
               ),
       ),
     );
