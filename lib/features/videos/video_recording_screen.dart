@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -19,6 +18,8 @@ class VideoRecordingScreen extends StatefulWidget {
 class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   bool _hasPermissions = false;
   bool _selfieMode = false;
+
+  late FlashMode _flashMode;
 
   late CameraController _cameraController;
 
@@ -51,11 +52,18 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     );
 
     await _cameraController.initialize();
+    _flashMode = _cameraController.value.flashMode;
   }
 
   Future<void> _toggleSelfiMode() async {
     _selfieMode = !_selfieMode;
     await initCamera();
+    setState(() {});
+  }
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+    await _cameraController.setFlashMode(newFlashMode);
+    _flashMode = newFlashMode;
     setState(() {});
   }
 
@@ -94,13 +102,62 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                   ),
                   Positioned(
                     top: Sizes.size36,
-                    left: Sizes.size20,
-                    child: IconButton(
-                      onPressed: _toggleSelfiMode,
-                      icon: Icon(
-                        Icons.cameraswitch_outlined,
-                        size: Sizes.size36,
-                      ),
+                    right: Sizes.size20,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: _toggleSelfiMode,
+                          icon: Icon(
+                            Icons.cameraswitch_outlined,
+                            size: Sizes.size36,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.off),
+                          icon: Icon(
+                            Icons.flash_off_rounded,
+                            size: Sizes.size36,
+                            color: _flashMode == FlashMode.off
+                                ? Colors.amber.shade200
+                                : Colors.white,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.always),
+                          icon: Icon(
+                            Icons.flash_on_rounded,
+                            size: Sizes.size36,
+                            color: _flashMode == FlashMode.always
+                                ? Colors.amber.shade200
+                                : Colors.white,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.auto),
+                          icon: Icon(
+                            Icons.flash_auto_rounded,
+                            size: Sizes.size36,
+                            color: _flashMode == FlashMode.auto
+                                ? Colors.amber.shade200
+                                : Colors.white,
+                          ),
+                        ),
+                        Gaps.v10,
+                        IconButton(
+                          onPressed: () => _setFlashMode(FlashMode.torch),
+                          icon: Icon(
+                            Icons.flashlight_on_rounded,
+                            size: Sizes.size36,
+                            color: _flashMode == FlashMode.torch
+                                ? Colors.amber.shade200
+                                : Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
