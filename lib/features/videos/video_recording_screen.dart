@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/video_preview_screen.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_flash_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
@@ -41,14 +42,25 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         upperBound: 1.0,
       );
 
-  void _startRecording(TapDownDetails _) {
+  Future<void> _startRecording(TapDownDetails _) async {
+    if (_cameraController.value.isRecordingVideo) return;
+
     _buttonAnimationController.forward();
     _progressAnimationController.forward();
+
+    await _cameraController.startVideoRecording();
   }
 
-  void _stopRecording() {
+  Future<void> _stopRecording() async {
+    if (!_cameraController.value.isRecordingVideo) return;
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
+    final video = await _cameraController.stopVideoRecording();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => VideoPreviewScreen(video: video)),
+    );
   }
 
   Future<void> initPermissions() async {
@@ -107,6 +119,14 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
         _stopRecording();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _buttonAnimationController.dispose();
+    _progressAnimationController.dispose();
+    super.dispose();
   }
 
   @override
