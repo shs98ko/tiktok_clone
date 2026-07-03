@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
@@ -31,13 +32,14 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void onNextTap() {
+    context.pushReplacementNamed(InterestsScreen.routeName);
     //push는 다른화면 맨 위에 새로운 화면을 올리는 것 -> 뒤로 가기 가능
     //다른 모든 화면의 기록들을 삭제후 push하기 ->  뒤로 가기 할 수 없음 / 뒤에 있는 화면을 선택해서 삭제 가능
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => InterestsScreen()),
-      // (route) => true,  // 모든 route를 유지
-      (route) => false, // 이전 route를 제거
-    );
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(builder: (context) => InterestsScreen()),
+    // (route) => true,  // 모든 route를 유지
+    //   (route) => false, // 이전 route를 제거
+    // );
   }
 
   void _setTextfieldDate(DateTime date) {

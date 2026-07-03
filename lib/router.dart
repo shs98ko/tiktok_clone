@@ -1,19 +1,59 @@
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone/features/authentication/email_screen.dart';
+import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_clone/features/authentication/username_screen.dart';
-import 'package:tiktok_clone/features/users/user_profile_screen.dart';
-import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 //navigator 2.0은 1.0의 웹 브라우저에서 앞으로가기기능 보완과 url의 변수를 사용할 수 있도록 하여 웹, 앱 모두 작동하기 위해 사용된다.
+
+/* Router
+/ sign up
+	/username
+	/email
+	/password
+	/birthday
+	
+
+/login
+	/login form
+
+/onboarding
+	/onboarding Interesting
+	/onboarding Tutorial
+
+(index => url)
+/home -> home
+/discover -> discover
+/inbox -> inbox
+/profile -> profile
+—————————————————— */
+final router = GoRouter(
+  routes: [
+    GoRoute(
+      name: SignUpScreen.routeName,
+      path: SignUpScreen.routeURL,
+      builder: (context, state) => SignUpScreen(),
+    ),
+    GoRoute(
+      name: LoginScreen.routeName,
+      path: LoginScreen.routeURL,
+      builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      name: InterestsScreen.routeName,
+      path: InterestsScreen.routeURL,
+      builder: (context, state) => InterestsScreen(),
+    ),
+  ],
+);
+
+
+
+
 
 /*  ROUTER
 "/"=>SignUpScreen
   "username"=>UsernameScreen
     "email"=>EmailScreen
 */
-final router = GoRouter(
-  routes: [
-    GoRoute(path: "/", builder: (context, state) => VideoRecordingScreen()),
     /* GoRoute(
       name: SignUpScreen.routeName,
       path: SignUpScreen.routeURL,
@@ -68,5 +108,3 @@ final router = GoRouter(
         return UserProfileScreen(username: username!, tab: tab!);
       },
     ), */
-  ],
-);

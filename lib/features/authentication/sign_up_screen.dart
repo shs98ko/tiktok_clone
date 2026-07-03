@@ -16,13 +16,16 @@ class SignUpScreen extends StatelessWidget {
 
   // dart는 private, protected, public과 같은 접근 지정자 개념이 없기때문에 private기능을 쓰기위해 메서드, 프로퍼티명에 ‘_’을 붙힌다.
   void _onLoginTap(BuildContext context) async {
-    // context.push(LoginScreen.routeName);
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
+    context.pushNamed(LoginScreen.routeName);
+    // Navigator.of(
+    //   context,
+    // ).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 
   void _onUsernameTap(BuildContext context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
     /* Navigator.of(context).push(
       pageRoutebuilder: builder되는 pageroute에 animation,duration등 설정할 수 있게 해주는 위젯이다.
       PageRouteBuilder(
@@ -48,9 +51,6 @@ class SignUpScreen extends StatelessWidget {
     ); */
     // context.pushNamed(UsernameScreen.routeName);
     //go : 뒤로가기 버튼이 사라지고 기존 스택관계를 끊고 스택이 0으로 초기화된다.
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => const UsernameScreen()));
   }
 
   @override
