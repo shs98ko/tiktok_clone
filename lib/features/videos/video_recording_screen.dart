@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +28,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermissions = false;
   bool _selfieMode = false;
+  final bool _noCamera =
+      kDebugMode &&
+      Platform.isIOS; //ios 시뮬레이터에서는 카메라가 없기 때문에 카메라를 사용할 수 없다는 문구를 띄워주기 위해서 사용
 
   late FlashMode _flashMode;
 
@@ -109,7 +115,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     setState(() {}); // Future로 지정하고싶지 않다면
   }
 
-  Future<void> _toggleSelfiMode() async {
+  Future<void> _toggleSelfieMode() async {
     _selfieMode = !_selfieMode;
     await initCamera();
     setState(() {});
@@ -139,7 +145,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+    if (!_noCamera) {
+      initPermissions();
+    } else {
+      _hasPermissions = true;
+    }
     WidgetsBinding.instance.addObserver(this);
     _progressAnimationController.addListener(() {
       setState(() {});
@@ -178,7 +188,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       backgroundColor: Colors.black,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: !_hasPermissions || !_cameraController.value.isInitialized
+        child: !_hasPermissions
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -195,54 +205,56 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
                 alignment: Alignment.center,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: CameraPreview(_cameraController),
-                  ),
-                  Positioned(
-                    top: Sizes.size36,
-                    right: Sizes.size20,
-                    child: Column(
-                      children: [
-                        IconButton(
-                          onPressed: _toggleSelfiMode,
-                          icon: Icon(
-                            Icons.cameraswitch_outlined,
-                            size: Sizes.size36,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Gaps.v10,
-                        VideoFlashButton(
-                          icon: Icons.flash_off_rounded,
-                          setFlashMode: _setFlashMode,
-                          currentFlashMode: _flashMode,
-                          newFlashMode: FlashMode.off,
-                        ),
-                        Gaps.v10,
-                        VideoFlashButton(
-                          icon: Icons.flash_on_rounded,
-                          setFlashMode: _setFlashMode,
-                          currentFlashMode: _flashMode,
-                          newFlashMode: FlashMode.always,
-                        ),
-                        Gaps.v10,
-                        VideoFlashButton(
-                          icon: Icons.flash_auto_rounded,
-                          setFlashMode: _setFlashMode,
-                          currentFlashMode: _flashMode,
-                          newFlashMode: FlashMode.auto,
-                        ),
-                        Gaps.v10,
-                        VideoFlashButton(
-                          icon: Icons.flashlight_on_rounded,
-                          setFlashMode: _setFlashMode,
-                          currentFlashMode: _flashMode,
-                          newFlashMode: FlashMode.torch,
-                        ),
-                      ],
+                  if (!_noCamera && _cameraController.value.isInitialized)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: CameraPreview(_cameraController),
                     ),
-                  ),
+                  if (!_noCamera)
+                    Positioned(
+                      top: Sizes.size36,
+                      right: Sizes.size20,
+                      child: Column(
+                        children: [
+                          IconButton(
+                            onPressed: _toggleSelfieMode,
+                            icon: Icon(
+                              Icons.cameraswitch_outlined,
+                              size: Sizes.size36,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gaps.v10,
+                          VideoFlashButton(
+                            icon: Icons.flash_off_rounded,
+                            setFlashMode: _setFlashMode,
+                            currentFlashMode: _flashMode,
+                            newFlashMode: FlashMode.off,
+                          ),
+                          Gaps.v10,
+                          VideoFlashButton(
+                            icon: Icons.flash_on_rounded,
+                            setFlashMode: _setFlashMode,
+                            currentFlashMode: _flashMode,
+                            newFlashMode: FlashMode.always,
+                          ),
+                          Gaps.v10,
+                          VideoFlashButton(
+                            icon: Icons.flash_auto_rounded,
+                            setFlashMode: _setFlashMode,
+                            currentFlashMode: _flashMode,
+                            newFlashMode: FlashMode.auto,
+                          ),
+                          Gaps.v10,
+                          VideoFlashButton(
+                            icon: Icons.flashlight_on_rounded,
+                            setFlashMode: _setFlashMode,
+                            currentFlashMode: _flashMode,
+                            newFlashMode: FlashMode.torch,
+                          ),
+                        ],
+                      ),
+                    ),
                   Positioned(
                     bottom: Sizes.size48,
                     width: MediaQuery.of(context).size.width,
