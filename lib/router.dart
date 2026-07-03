@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
@@ -41,6 +42,15 @@ final router = GoRouter(
       name: InterestsScreen.routeName,
       path: InterestsScreen.routeURL,
       builder: (context, state) => InterestsScreen(),
+    ),
+    GoRoute(
+      path:
+          "/:tab(home|discover|inbox|profile)", //“/:tab”이라 하면 모든 스트링이 적용되므로 제한한다.
+      name: MainNavigationScreen.routeName,
+      builder: (context, state) {
+        var tab = state.params["tab"]!;
+        return MainNavigationScreen(tab: tab);
+      },
     ),
   ],
 );

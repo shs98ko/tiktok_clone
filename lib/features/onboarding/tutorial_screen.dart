@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
@@ -47,10 +48,11 @@ class _MyWidgetState extends State<TutorialScreen> {
   }
 
   void _onEnterTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => MainNavigationScreen()),
-      (route) => false,
-    );
+    context.go("/home"); //go : 기존 스택을 버리고 새로운 경로로 이동하는 것
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(builder: (context) => MainNavigationScreen()),
+    //   (route) => false,
+    // );
   }
 
   @override
