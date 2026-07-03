@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/constants/breakpoints.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
+
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
@@ -118,18 +119,19 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onMuteTap() async {
+    _isMuted = !_isMuted;
     if (_isMuted) {
       await _videoPlayerController.setVolume(0);
     } else {
       await _videoPlayerController.setVolume(1);
     }
-    setState(() {
-      _isMuted = !_isMuted;
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    // final videoConfig = context.dependOnInheritedWidgetOfExactType<VideoConfig>();
+    // final videoConfig = VideoConfig.of(context);
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -204,9 +206,9 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _onMuteTap,
                   child: FaIcon(
-                    _isMuted
-                        ? FontAwesomeIcons.volumeHigh
-                        : FontAwesomeIcons.volumeXmark,
+                    _isMuted || VideoConfig.of(context).isAutoMute
+                        ? FontAwesomeIcons.volumeXmark
+                        : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,
                   ),
                 ),
