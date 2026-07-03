@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/inbox/chats_screen.dart';
@@ -8,16 +9,18 @@ class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
 
   void _onDmPressed(BuildContext context) {
+    context.pushNamed(ChatsScreen.routeName);
     //메서드에 context를 포함하지 않기때문에 매개 변수로 넣어 줘야 한다
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => ChatsScreen()));
+    // Navigator.of(
+    //   context,
+    // ).push(MaterialPageRoute(builder: (context) => ChatsScreen()));
   }
 
   void _onActivityTap(BuildContext context) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => ActivityScreen()));
+    context.pushNamed(ActivityScreen.routeName);
+    // Navigator.of(
+    //   context,
+    // ).push(MaterialPageRoute(builder: (context) => ActivityScreen()));
   }
 
   @override
