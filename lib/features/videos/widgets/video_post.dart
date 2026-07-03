@@ -206,7 +206,7 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _onMuteTap,
                   child: FaIcon(
-                    _isMuted || VideoConfig.of(context).isAutoMute
+                    _isMuted || VideoConfigData.of(context).autoMute
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,
