@@ -11,6 +11,8 @@ import 'package:flutter/widgets.dart';
 
 // inheritWidget은 데이터는 제공하지만 연결된 위젯에서 수정할수 없다 -> 나중에 changeNotifier를 이용한다
 // VideoConfigData는 데이터통로라고 보면 된다.
+// 이런식으로 하면 앱 전체를 rebuild하게 되므로 비효율적이다
+// 필요한 부분만 국소적 rebuild하도록 changeNotifier를 이용한다.
 class VideoConfigData extends InheritedWidget {
   final bool autoMute;
   final void Function() toggleMuted;
