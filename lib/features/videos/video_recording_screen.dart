@@ -168,6 +168,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   //  background로 가는 것을 우리가 감지해야한다.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_noCamera) return;
     if (!_hasPermissions) return;
     if (!_cameraController.value.isInitialized) return;
     if (state == AppLifecycleState.inactive) {
@@ -179,7 +180,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (!_noCamera) _cameraController.dispose();
     _buttonAnimationController.dispose();
     _progressAnimationController.dispose();
     super.dispose();
@@ -208,6 +209,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
             : Stack(
                 alignment: Alignment.center,
                 children: [
+                  Positioned(
+                    top: Sizes.size40,
+                    left: Sizes.size20,
+                    child: CloseButton(color: Colors.white),
+                  ),
                   if (!_noCamera && _cameraController.value.isInitialized)
                     SizedBox(
                       height: MediaQuery.of(context).size.height,
@@ -258,6 +264,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                         ],
                       ),
                     ),
+
                   Positioned(
                     bottom: Sizes.size48,
                     width: MediaQuery.of(context).size.width,
