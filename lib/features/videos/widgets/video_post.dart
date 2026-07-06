@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -33,8 +34,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
-  bool _isMuted = false;
-  bool _autoMute = videoConfig.value;
+  // bool _isMuted = false;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -71,12 +71,6 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-      });
-    });
   }
 
   @override
@@ -125,15 +119,15 @@ class _VideoPostState extends State<VideoPost>
     _togglePause();
   }
 
-  void _onMuteTap() async {
-    _isMuted = !_isMuted;
-    if (_isMuted) {
-      await _videoPlayerController.setVolume(0);
-    } else {
-      await _videoPlayerController.setVolume(1);
-    }
-    setState(() {});
-  }
+  // void _onMuteTap() async {
+  //   _isMuted = !_isMuted;
+  //   if (_isMuted) {
+  //     await _videoPlayerController.setVolume(0);
+  //   } else {
+  //     await _videoPlayerController.setVolume(1);
+  //   }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -211,9 +205,11 @@ class _VideoPostState extends State<VideoPost>
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: _onMuteTap,
+                  onTap: () {
+                    context.read<VideoConfig>().toggleIsMuted();
+                  },
                   child: FaIcon(
-                    _isMuted || _autoMute
+                    context.watch<VideoConfig>().isMuted
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,

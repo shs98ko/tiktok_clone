@@ -21,4 +21,22 @@ changeNotifier: 데이터가 변경되었다고 알려주는 클래스이며 내
 */
 
 //값이 하나일 땐 valunotifier를 활용한다.
-final videoConfig = ValueNotifier(false);
+// final videoConfig = ValueNotifier(false);
+
+//Provider
+//provider: 데이터를 제공하고 어디서나 들어볼 수 있게 함
+//inheritWidget처럼 최상단위젯을 감싸고 context.watch와 read를통해 값과 메소드를 불러와 들을수 있게 한다.
+class VideoConfig extends ChangeNotifier {
+  bool isMuted = false;
+  bool isAutoplay = false;
+
+  void toggleIsMuted() {
+    isMuted = !isMuted;
+    notifyListeners();
+  }
+
+  void toggleAutoplay() {
+    isAutoplay = !isAutoplay;
+    notifyListeners();
+  }
+}

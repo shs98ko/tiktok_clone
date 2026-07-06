@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_config.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -35,17 +36,13 @@ class _SettingScreenState extends State<SettingScreen> {
       */
       body: ListView(
         children: [
-          ValueListenableBuilder(
-            //animationbuilder도 사용가능
-            valueListenable: videoConfig,
-            builder: (context, value, child) => SwitchListTile.adaptive(
-              value: videoConfig.value,
-              onChanged: (value) {
-                videoConfig.value = !videoConfig.value;
-              },
-              title: const Text("Auto Mute"),
-              subtitle: const Text("Videos will be muted by default."),
-            ),
+          SwitchListTile.adaptive(
+            value: context.watch<VideoConfig>().isMuted,
+            onChanged: (value) {
+              context.read<VideoConfig>().toggleIsMuted();
+            },
+            title: const Text("Auto Mute"),
+            subtitle: const Text("Videos will be muted by default."),
           ),
           SwitchListTile.adaptive(
             value: _notification,
