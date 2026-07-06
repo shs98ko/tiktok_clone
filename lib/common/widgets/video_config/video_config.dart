@@ -13,52 +13,20 @@ import 'package:flutter/widgets.dart';
 // VideoConfigData는 데이터통로라고 보면 된다.
 // 이런식으로 하면 앱 전체를 rebuild하게 되므로 비효율적이다
 // 필요한 부분만 국소적 rebuild하도록 changeNotifier를 이용한다.
-class VideoConfigData extends InheritedWidget {
-  final bool autoMute;
-  final void Function() toggleMuted;
 
-  const VideoConfigData({
-    super.key,
-    required super.child,
-    required this.toggleMuted,
-    required this.autoMute,
-  });
+/* -> changeNotifier
+changeNotifier: 데이터가 변경되었다고 알려주는 클래스이며 내가 원하는 클래스를 상속받게하여 커스텀할 수 있다 또한 변경되었다면 notifyListener()를 사용에 데이터를 변경하려는 부분이 듣도록한다
+1.  데이터를 변경하려는 부분에 animatedBuilder를  활용하여 데이터가 변경되었다고 듣도록 한다.
+2.  데이터를 변경하려는 부분에 이벤트리스너를 활용하여 데이터가 변경되었다고 듣도록 한다. 
+*/
 
-  static VideoConfigData of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<VideoConfigData>()!;
-  }
-
-  //updateShouldNotify: inherit위젯을 rebuild할지 말지 정할 수 있게 해준다.
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-  }
-}
-
-class VideoConfig extends StatefulWidget {
-  final Widget child;
-
-  const VideoConfig({super.key, required this.child});
-
-  @override
-  State<VideoConfig> createState() => _VideoConfigState();
-}
-
-class _VideoConfigState extends State<VideoConfig> {
+class VideoConfig extends ChangeNotifier {
   bool autoMute = false;
 
   void toggleMuted() {
-    setState(() {
-      autoMute = !autoMute;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return VideoConfigData(
-      toggleMuted: toggleMuted,
-      autoMute: autoMute,
-      child: widget.child,
-    );
+    autoMute = !autoMute;
+    notifyListeners();
   }
 }
+
+final videoConfig = VideoConfig(); // 이와 같이 전역변수보단 쓰지 않는다 나중에 더 좋은 방법이 있음

@@ -34,6 +34,7 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
   bool _isMuted = false;
+  bool _autoMute = videoConfig.autoMute;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -70,6 +71,12 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
+
+    videoConfig.addListener(() {
+      setState(() {
+        _autoMute = videoConfig.autoMute;
+      });
+    });
   }
 
   @override
@@ -206,7 +213,7 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _onMuteTap,
                   child: FaIcon(
-                    _isMuted || VideoConfigData.of(context).autoMute
+                    _isMuted || _autoMute
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,
@@ -217,7 +224,9 @@ class _VideoPostState extends State<VideoPost>
                   radius: 25,
                   backgroundColor: Colors.blueGrey,
                   foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage("url"),
+                  foregroundImage: NetworkImage(
+                    "https://avatars.githubusercontent.com/u/102948397?v=4",
+                  ),
                   child: Text("Name"),
                 ),
                 Gaps.v24,
