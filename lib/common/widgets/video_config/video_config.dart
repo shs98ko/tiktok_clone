@@ -20,13 +20,5 @@ changeNotifier: 데이터가 변경되었다고 알려주는 클래스이며 내
 2.  데이터를 변경하려는 부분에 이벤트리스너를 활용하여 데이터가 변경되었다고 듣도록 한다. 
 */
 
-class VideoConfig extends ChangeNotifier {
-  bool autoMute = false;
-
-  void toggleMuted() {
-    autoMute = !autoMute;
-    notifyListeners();
-  }
-}
-
-final videoConfig = VideoConfig(); // 이와 같이 전역변수보단 쓰지 않는다 나중에 더 좋은 방법이 있음
+//값이 하나일 땐 valunotifier를 활용한다.
+final videoConfig = ValueNotifier(false);
