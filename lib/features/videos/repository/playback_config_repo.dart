@@ -28,7 +28,7 @@ import 'package:shared_preferences/shared_preferences.dart';
   Repository 
 */
 
-class PlaybackConfigRepo {
+class PlaybackConfigRepository {
   static const String _muted = "muted";
   static const String _autoplay = "autoplay";
 
@@ -39,7 +39,7 @@ class PlaybackConfigRepo {
   */
   final SharedPreferences _preferences;
 
-  PlaybackConfigRepo(this._preferences);
+  PlaybackConfigRepository(this._preferences);
 
   // 1. 음소거 관련 데이터를 디스크에 저장하는 메소드
   Future<void> setMuted(bool value) async {

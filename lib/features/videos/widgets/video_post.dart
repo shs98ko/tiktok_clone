@@ -205,11 +205,9 @@ class _VideoPostState extends State<VideoPost>
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    context.read<VideoConfig>().toggleIsMuted();
-                  },
+                  onTap: () {},
                   child: FaIcon(
-                    context.watch<VideoConfig>().isMuted
+                    false
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,
