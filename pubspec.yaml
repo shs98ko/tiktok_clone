@@ -44,6 +44,7 @@ dependencies:
   saver_gallery: ^4.1.2
   image_picker: ^1.2.3
   provider: ^6.0.5
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

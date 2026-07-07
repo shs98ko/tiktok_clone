@@ -7,7 +7,7 @@ import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
 import 'package:tiktok_clone/features/inbox/chats_screen.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
-import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
+import 'package:tiktok_clone/features/videos/view/video_recording_screen.dart';
 //navigator 2.0은 1.0의 웹 브라우저에서 앞으로가기기능 보완과 url의 변수를 사용할 수 있도록 하여 웹, 앱 모두 작동하기 위해 사용된다.
 
 /* Router
