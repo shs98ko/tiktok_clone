@@ -34,7 +34,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
-  // bool _isMuted = false;
+  bool _isMuted = false;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -55,6 +55,10 @@ class _VideoPostState extends State<VideoPost>
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
+    if (!mounted) return;
+    _isMuted = context.read<PlaybackConfigViewModel>().muted;
+    await _videoPlayerController.setVolume(_isMuted ? 0 : 1);
+
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
   }
@@ -125,19 +129,23 @@ class _VideoPostState extends State<VideoPost>
     _togglePause();
   }
 
-  // void _onMuteTap() async {
-  //   _isMuted = !_isMuted;
-  //   if (_isMuted) {
-  //     await _videoPlayerController.setVolume(0);
-  //   } else {
-  //     await _videoPlayerController.setVolume(1);
-  //   }
-  //   setState(() {});
-  // }
+  void _onMuteTap() async {
+    _isMuted = !_isMuted;
+    if (_isMuted) {
+      await _videoPlayerController.setVolume(0);
+    } else {
+      await _videoPlayerController.setVolume(1);
+    }
+    setState(() {});
+  }
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
     final muted = context.read<PlaybackConfigViewModel>().muted;
+    setState(() {
+      _isMuted = muted;
+    });
+
     if (muted) {
       _videoPlayerController.setVolume(0);
     } else {
@@ -221,13 +229,9 @@ class _VideoPostState extends State<VideoPost>
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    context.read<PlaybackConfigViewModel>().setMuted(
-                      !context.read<PlaybackConfigViewModel>().muted,
-                    );
-                  },
+                  onTap: _onMuteTap,
                   child: FaIcon(
-                    context.watch<PlaybackConfigViewModel>().muted
+                    _isMuted
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     color: Colors.white,
