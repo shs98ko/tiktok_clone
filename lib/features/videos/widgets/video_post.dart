@@ -1,15 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/models/playback_config_model.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_commu_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+//ConsumerStatefulWidget은 ref을 build 메소드 안에 있을 필요없다.
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
   const VideoPost({
@@ -19,11 +23,11 @@ class VideoPost extends StatefulWidget {
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
 // singleTickerProviderStateMixin: animation의 프레임마다 위젯이 화면에 보일 때만 tick하는 Ticker가 있는 클래스
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   final Duration _animationDuration = Duration(milliseconds: 200);
@@ -52,9 +56,9 @@ class _VideoPostState extends State<VideoPost>
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
-    // if (!mounted) return;
-    // _isMuted = context.read<PlaybackConfigViewModel>().muted;
-    // await _videoPlayerController.setVolume(_isMuted ? 0 : 1);
+    if (!mounted) return;
+    _isMuted = ref.read(playbackConfigProvider).muted;
+    await _videoPlayerController.setVolume(_isMuted ? 0 : 1);
 
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
@@ -72,9 +76,6 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-    // context.read<PlaybackConfigViewModel>().addListener(
-    //   _onPlaybackConfigChanged,
-    // );
   }
 
   @override
@@ -90,8 +91,8 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (false) {
+      final autoplay = ref.read(playbackConfigProvider).autoplay;
+      if (autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -138,12 +139,12 @@ class _VideoPostState extends State<VideoPost>
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    // final muted = context.read<PlaybackConfigViewModel>().muted;
-    // setState(() {
-    //   _isMuted = muted;
-    // });
+    final muted = ref.read(playbackConfigProvider).muted;
+    setState(() {
+      _isMuted = muted;
+    });
 
-    if (false) {
+    if (muted) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(1);
@@ -154,6 +155,9 @@ class _VideoPostState extends State<VideoPost>
   Widget build(BuildContext context) {
     // final videoConfig = context.dependOnInheritedWidgetOfExactType<VideoConfig>();
     // final videoConfig = VideoConfig.of(context);
+    ref.listen<PlaybackConfigModel>(playbackConfigProvider, (previous, next) {
+      _onPlaybackConfigChanged();
+    });
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,

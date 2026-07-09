@@ -1,26 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+//다른 로직으로 옮겨야 됨
+// bool _notification = false;
 
-class SettingScreen extends StatefulWidget {
+// void _onNotificationChanged(bool? newValue) {
+//   if (newValue == null) return;
+//   setState(() {
+//     _notification = newValue;
+//   });
+// }
+class SettingScreen extends ConsumerWidget {
   const SettingScreen({super.key});
 
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
-}
-
-class _SettingScreenState extends State<SettingScreen> {
-  bool _notification = false;
-
-  void _onNotificationChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notification = newValue;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: Text("Setting")),
       /*
@@ -35,30 +31,30 @@ class _SettingScreenState extends State<SettingScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            value: false,
-            // context.watch<PlaybackConfigViewModel>().muted,
-            onChanged: (value) => {},
-            // context.read<PlaybackConfigViewModel>().setMuted(value),
+            value: ref.watch(playbackConfigProvider).muted,
+            onChanged: (value) => {
+              ref.read(playbackConfigProvider.notifier).setMuted(value),
+            },
             title: const Text("Mute video"),
             subtitle: const Text("Video will be muted by default."),
           ),
           SwitchListTile.adaptive(
-            value: false,
-            // context.watch<PlaybackConfigViewModel>().autoplay,
-            onChanged: (value) => {},
-            // context.read<PlaybackConfigViewModel>().setAutoplay(value),
+            value: ref.watch(playbackConfigProvider).autoplay,
+            onChanged: (value) => {
+              ref.read(playbackConfigProvider.notifier).setAutoplay(value),
+            },
             title: const Text("Autoplay"),
             subtitle: const Text("Video will start playing automatically."),
           ),
           SwitchListTile.adaptive(
-            value: _notification,
-            onChanged: _onNotificationChanged,
+            value: false,
+            onChanged: (value) => {},
             title: Text("Enable Notification"),
             subtitle: const Text("They will be cute."),
           ),
           CheckboxListTile(
-            value: _notification,
-            onChanged: _onNotificationChanged,
+            value: false,
+            onChanged: (value) => {},
             title: Text("Marketing Emails"),
             subtitle: const Text("We won't spam you."),
           ),
