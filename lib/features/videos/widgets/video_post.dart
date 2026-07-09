@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_commu_button.dart';
@@ -55,9 +52,9 @@ class _VideoPostState extends State<VideoPost>
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
-    if (!mounted) return;
-    _isMuted = context.read<PlaybackConfigViewModel>().muted;
-    await _videoPlayerController.setVolume(_isMuted ? 0 : 1);
+    // if (!mounted) return;
+    // _isMuted = context.read<PlaybackConfigViewModel>().muted;
+    // await _videoPlayerController.setVolume(_isMuted ? 0 : 1);
 
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
@@ -75,9 +72,9 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-    context.read<PlaybackConfigViewModel>().addListener(
-      _onPlaybackConfigChanged,
-    );
+    // context.read<PlaybackConfigViewModel>().addListener(
+    //   _onPlaybackConfigChanged,
+    // );
   }
 
   @override
@@ -93,8 +90,8 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
-      if (autoplay) {
+      // final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (false) {
         _videoPlayerController.play();
       }
     }
@@ -141,12 +138,12 @@ class _VideoPostState extends State<VideoPost>
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    setState(() {
-      _isMuted = muted;
-    });
+    // final muted = context.read<PlaybackConfigViewModel>().muted;
+    // setState(() {
+    //   _isMuted = muted;
+    // });
 
-    if (muted) {
+    if (false) {
       _videoPlayerController.setVolume(0);
     } else {
       _videoPlayerController.setVolume(1);
