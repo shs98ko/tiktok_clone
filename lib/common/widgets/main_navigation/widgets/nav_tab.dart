@@ -6,10 +6,10 @@ import 'package:tiktok_clone/utils.dart';
 
 class NavTab extends StatelessWidget {
   final String text;
-  final IconData icon;
+  final FaIconData icon;
   final bool isSelected;
   final Function onTap;
-  final IconData selectedIcon;
+  final FaIconData selectedIcon;
   final int selectedIndex;
 
   const NavTab({

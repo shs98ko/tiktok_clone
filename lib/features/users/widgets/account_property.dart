@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
-class AccounProperty extends StatelessWidget {
+class AccountProperty extends StatelessWidget {
   final String number;
   final String title;
-  const AccounProperty({super.key, required this.number, required this.title});
+  const AccountProperty({super.key, required this.number, required this.title});
 
   @override
   Widget build(BuildContext context) {

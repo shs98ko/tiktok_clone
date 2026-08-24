@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/settings/settings_screen.dart';
-import 'package:tiktok_clone/features/users/widgets/accoun_property.dart';
+import 'package:tiktok_clone/features/users/widgets/account_property.dart';
 import 'package:tiktok_clone/features/users/widgets/persistent_tab_bar.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            AccounProperty(number: "37", title: "Following"),
+                            AccountProperty(number: "37", title: "Following"),
                             VerticalDivider(
                               width: Sizes.size32,
                               thickness: Sizes.size1,
@@ -92,7 +92,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               indent: Sizes.size10,
                               endIndent: Sizes.size10,
                             ),
-                            AccounProperty(number: "10.5M", title: "Followers"),
+                            AccountProperty(
+                              number: "10.5M",
+                              title: "Followers",
+                            ),
                             VerticalDivider(
                               width: Sizes.size32,
                               thickness: Sizes.size1,
@@ -100,7 +103,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               indent: Sizes.size10,
                               endIndent: Sizes.size10,
                             ),
-                            AccounProperty(number: "149.3M", title: "Likes"),
+                            AccountProperty(number: "149.3M", title: "Likes"),
                           ],
                         ),
                       ),

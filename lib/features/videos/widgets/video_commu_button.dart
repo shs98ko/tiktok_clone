@@ -4,7 +4,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoCommuButton extends StatelessWidget {
-  final IconData icon;
+  final FaIconData icon;
   final String text;
   const VideoCommuButton({super.key, required this.icon, required this.text});
 
