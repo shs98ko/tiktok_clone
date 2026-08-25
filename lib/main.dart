@@ -34,15 +34,15 @@ void main() async {
   );
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     //provider를 한개만 사용한다면 해당 provier를 감싸주면된다.
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       title: 'TikTok clone',
       themeMode: ThemeMode.system, //themeMode : 핸드폰한테 어떤 theme을 사용할지 알려주는 기능

@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/features/authentication/login_screen.dart';
+import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
 import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/features/inbox/activity_screen.dart';
 import 'package:tiktok_clone/features/inbox/chat_detail_screen.dart';
@@ -35,75 +37,89 @@ import 'package:tiktok_clone/features/videos/view/video_recording_screen.dart';
     /chat/:id -> chat detail
 /profile -> profile
 —————————————————— */
-final router = GoRouter(
-  initialLocation: "/home",
-  routes: [
-    GoRoute(
-      name: SignUpScreen.routeName,
-      path: SignUpScreen.routeURL,
-      builder: (context, state) => SignUpScreen(),
-    ),
-    GoRoute(
-      name: LoginScreen.routeName,
-      path: LoginScreen.routeURL,
-      builder: (context, state) => LoginScreen(),
-    ),
-    GoRoute(
-      name: InterestsScreen.routeName,
-      path: InterestsScreen.routeURL,
-      builder: (context, state) => InterestsScreen(),
-    ),
-    GoRoute(
-      path:
-          "/:tab(home|discover|inbox|profile)", //“/:tab”이라 하면 모든 스트링이 적용되므로 제한한다.
-      name: MainNavigationScreen.routeName,
-      builder: (context, state) {
-        var tab = state.params["tab"]!;
-        return MainNavigationScreen(tab: tab);
-      },
-    ),
-    GoRoute(
-      name: ActivityScreen.routeName,
-      path: ActivityScreen.routeURL,
-      builder: (context, state) => ActivityScreen(),
-    ),
-    GoRoute(
-      name: ChatsScreen.routeName,
-      path: ChatsScreen.routeURL,
-      builder: (context, state) => ChatsScreen(),
-      routes: [
-        GoRoute(
-          name: ChatDetailScreen.routeName,
-          path: ChatDetailScreen.routeURL,
-          builder: (context, state) {
-            final chatId = state.params["chatId"]!;
-            return ChatDetailScreen(chatId: chatId);
-          },
-        ),
-      ],
-    ),
+final routerProvider = Provider((ref) {
+  return GoRouter(
+    initialLocation: "/home",
+    redirect: (context, state) {
+      final isLoggedIn = ref.read(authRepo).isLoggedIn;
 
-    GoRoute(
-      name: VideoRecordingScreen.routeName,
-      path: VideoRecordingScreen.routeURL,
-      pageBuilder: (context, state) {
-        return CustomTransitionPage(
-          child: VideoRecordingScreen(),
-          transitionDuration: const Duration(milliseconds: 200),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final position = Tween(
-              begin: Offset(0, 1),
-              end: Offset.zero,
-            ).animate(animation);
-            return SlideTransition(position: position, child: child);
-          },
-        );
-      },
-    ),
-  ],
-);
+      if (!isLoggedIn) {
+        if (state.subloc != SignUpScreen.routeURL &&
+            state.subloc != LoginScreen.routeURL)
+        // state.subloc = 현재 user의 위치라고 해석가능하다.
+        {
+          return SignUpScreen.routeURL;
+        }
+      }
+      return null;
+    },
+    routes: [
+      GoRoute(
+        name: SignUpScreen.routeName,
+        path: SignUpScreen.routeURL,
+        builder: (context, state) => SignUpScreen(),
+      ),
+      GoRoute(
+        name: LoginScreen.routeName,
+        path: LoginScreen.routeURL,
+        builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+        name: InterestsScreen.routeName,
+        path: InterestsScreen.routeURL,
+        builder: (context, state) => InterestsScreen(),
+      ),
+      GoRoute(
+        path:
+            "/:tab(home|discover|inbox|profile)", //“/:tab”이라 하면 모든 스트링이 적용되므로 제한한다.
+        name: MainNavigationScreen.routeName,
+        builder: (context, state) {
+          var tab = state.params["tab"]!;
+          return MainNavigationScreen(tab: tab);
+        },
+      ),
+      GoRoute(
+        name: ActivityScreen.routeName,
+        path: ActivityScreen.routeURL,
+        builder: (context, state) => ActivityScreen(),
+      ),
+      GoRoute(
+        name: ChatsScreen.routeName,
+        path: ChatsScreen.routeURL,
+        builder: (context, state) => ChatsScreen(),
+        routes: [
+          GoRoute(
+            name: ChatDetailScreen.routeName,
+            path: ChatDetailScreen.routeURL,
+            builder: (context, state) {
+              final chatId = state.params["chatId"]!;
+              return ChatDetailScreen(chatId: chatId);
+            },
+          ),
+        ],
+      ),
 
-
+      GoRoute(
+        name: VideoRecordingScreen.routeName,
+        path: VideoRecordingScreen.routeURL,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            child: VideoRecordingScreen(),
+            transitionDuration: const Duration(milliseconds: 200),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  final position = Tween(
+                    begin: Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(animation);
+                  return SlideTransition(position: position, child: child);
+                },
+          );
+        },
+      ),
+    ],
+  );
+});
 
 
 
