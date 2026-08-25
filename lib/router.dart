@@ -36,7 +36,7 @@ import 'package:tiktok_clone/features/videos/view/video_recording_screen.dart';
 /profile -> profile
 —————————————————— */
 final router = GoRouter(
-  // initialLocation: "/inbox",
+  initialLocation: "/home",
   routes: [
     GoRoute(
       name: SignUpScreen.routeName,
