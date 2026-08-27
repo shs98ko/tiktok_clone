@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/authentication/view_moedels/signup_view_model.dart';
 import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/utils.dart';
 
-class BirthdayScreen extends StatefulWidget {
+class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({super.key});
 
   @override
-  State<BirthdayScreen> createState() => _BirthdayScreenState();
+  ConsumerState<BirthdayScreen> createState() => _BirthdayScreenState();
 }
 
-class _BirthdayScreenState extends State<BirthdayScreen> {
+class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   DateTime initialDate = DateTime.now();
@@ -32,7 +34,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void onNextTap() {
-    context.pushReplacementNamed(InterestsScreen.routeName);
+    ref.read(signUpProvider.notifier).signUp();
+    // context.pushReplacementNamed(InterestsScreen.routeName);
     // context.goNamed(InterestsScreen.routeName);
     //push는 다른화면 맨 위에 새로운 화면을 올리는 것 -> 뒤로 가기 가능
     //다른 모든 화면의 기록들을 삭제후 push하기 ->  뒤로 가기 할 수 없음 / 뒤에 있는 화면을 선택해서 삭제 가능
@@ -98,7 +101,10 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             Gaps.v24,
             GestureDetector(
               onTap: onNextTap,
-              child: FormButton(buttonText: "Next", disabled: false),
+              child: FormButton(
+                buttonText: "Next",
+                disabled: ref.watch(signUpProvider).isLoading,
+              ),
             ),
           ],
         ),
