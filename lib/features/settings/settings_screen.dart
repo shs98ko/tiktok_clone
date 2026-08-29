@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiktok_clone/features/authentication/view_moedels/signout_view_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 //다른 로직으로 옮겨야 됨
 // bool _notification = false;
@@ -76,7 +78,10 @@ class SettingScreen extends ConsumerWidget {
                       ),
                     ),
                     CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        ref.read(signOutProvieder.notifier).signOut();
+                        context.go("/");
+                      },
                       isDestructiveAction: true,
                       child: const Text("Yes"),
                     ),

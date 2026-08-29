@@ -38,6 +38,7 @@ import 'package:tiktok_clone/features/videos/view/video_recording_screen.dart';
 /profile -> profile
 —————————————————— */
 final routerProvider = Provider((ref) {
+  // ref.watch(authState);
   return GoRouter(
     initialLocation: "/home",
     redirect: (context, state) {
