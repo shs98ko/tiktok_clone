@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/login_screen.dart';
-import 'package:tiktok_clone/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/login_screen.dart';
+import 'package:tiktok_clone/features/authentication/views/username_screen.dart';
 import 'package:tiktok_clone/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/utils.dart'; //feature-driven-architecture 기능 별로 구분해서 정리하는 구조
