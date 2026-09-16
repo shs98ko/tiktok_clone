@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/view_moedels/signup_view_model.dart';
-import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
+import 'package:tiktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/utils.dart';
 
@@ -34,7 +32,7 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void onNextTap() {
-    ref.read(signUpProvider.notifier).signUp();
+    ref.read(signUpProvider.notifier).signUp(context);
     // context.pushReplacementNamed(InterestsScreen.routeName);
     // context.goNamed(InterestsScreen.routeName);
     //push는 다른화면 맨 위에 새로운 화면을 올리는 것 -> 뒤로 가기 가능
