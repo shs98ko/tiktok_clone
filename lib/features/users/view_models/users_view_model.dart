@@ -27,6 +27,8 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       link: "undefined",
     );
     state = AsyncValue.data(profile);
+
+    await _repository.createProfile(profile);
   }
 }
 
