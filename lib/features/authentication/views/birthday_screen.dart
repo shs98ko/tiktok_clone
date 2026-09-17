@@ -5,6 +5,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/view_models/signup_view_model.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
 import 'package:tiktok_clone/utils.dart';
 
 class BirthdayScreen extends ConsumerStatefulWidget {
@@ -18,10 +19,12 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   DateTime initialDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    _selectedDate = initialDate;
     _setTextfieldDate(initialDate);
   }
 
@@ -32,6 +35,8 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void onNextTap() {
+    final state = ref.read(userForm.notifier).state;
+    ref.read(userForm.notifier).state = {...state, "birthday": _selectedDate};
     ref.read(signUpProvider.notifier).signUp(context);
     // context.pushReplacementNamed(InterestsScreen.routeName);
     // context.goNamed(InterestsScreen.routeName);
@@ -45,6 +50,9 @@ class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   }
 
   void _setTextfieldDate(DateTime date) {
+    setState(() {
+      _selectedDate = date; // 화면 표시용 텍스트뿐 아니라 실제 선택값도 갱신
+    });
     final textDate = date.toString().split(' ').first;
     _birthdayController.value = TextEditingValue(text: textDate);
   }
