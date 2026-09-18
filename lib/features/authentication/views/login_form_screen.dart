@@ -47,11 +47,11 @@ class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        ref
+            .read(loginProvider.notifier)
+            .login(formData["email"]!, formData["password"]!, context);
       }
     }
-    ref
-        .read(loginProvider.notifier)
-        .login(formData["email"]!, formData["password"]!, context);
     //context.goNamed(InterestsScreen.routeName);
     // Navigator.of(context).pushAndRemoveUntil(
     //   MaterialPageRoute(builder: (context) => InterestsScreen()),
@@ -151,7 +151,7 @@ class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
                     if (value != null && value.isEmpty) {
                       return "Please write your password";
                     }
-                    if (value != null && value.length <= 8) {
+                    if (value != null && value.length < 8) {
                       return "Please enter a password with at least 8 characters";
                     }
                     return null;

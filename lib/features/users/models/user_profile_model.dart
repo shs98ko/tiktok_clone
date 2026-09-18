@@ -29,7 +29,7 @@ class UserProfileModel {
       name = json["name"],
       bio = json["bio"],
       link = json["link"],
-      birthday = json["birthday"];
+      birthday = DateTime.parse(json["birthday"]);
 
   Map<String, String> toJson() {
     return {
