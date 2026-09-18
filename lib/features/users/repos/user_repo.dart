@@ -18,19 +18,18 @@ class UserRepository {
     return doc.data();
   }
 
-  //--challenge
   //update avatar
   Future<void> uploadAvatar(File file, String fileName) async {
     final fileRef = _storage.ref().child("avatars/$fileName");
     await fileRef.putFile(file);
   }
 
+  // User Profile_7 Challenge
+  //update bio
+  //update link
   Future<void> updateUser(String uid, Map<String, dynamic> data) async {
     await _db.collection("users").doc(uid).update(data);
   }
-
-  //update bio
-  //update link
 }
 
 final userRepo = Provider((ref) => UserRepository());

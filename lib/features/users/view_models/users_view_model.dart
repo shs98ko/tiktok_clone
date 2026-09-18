@@ -53,6 +53,27 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
     await _userRepository.updateUser(state.value!.uid, {"hasAvatar": true});
   }
+
+  Future<void> updateProfile() async {
+    if (state.value == null) return;
+    final form = ref.read(userForm);
+    final current = state.value!; // loading 처리 전에 미리 캡처
+
+    final newBio = (form["bio"] as String?)?.isNotEmpty == true
+        ? form["bio"]
+        : current.bio;
+    final newLink = (form["link"] as String?)?.isNotEmpty == true
+        ? form["link"]
+        : current.link; // 이 코드 지금 view에서 적용되도록 고쳐야함
+
+    state = AsyncValue.loading();
+    state = AsyncValue.data(current.copyWith(bio: newBio, link: newLink));
+
+    await _userRepository.updateUser(current.uid, {
+      "bio": newBio,
+      "link": newLink,
+    });
+  }
 }
 
 final userForm = StateProvider<Map<String, dynamic>>((ref) => {});
