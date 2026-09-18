@@ -5,6 +5,7 @@ class UserProfileModel {
   final String bio;
   final String link;
   final DateTime birthday;
+  final bool hasAvatar;
 
   UserProfileModel({
     required this.uid,
@@ -13,6 +14,7 @@ class UserProfileModel {
     required this.bio,
     required this.link,
     required this.birthday,
+    required this.hasAvatar,
   });
 
   UserProfileModel.empty()
@@ -21,7 +23,8 @@ class UserProfileModel {
       name = "",
       bio = "",
       link = "",
-      birthday = DateTime.now();
+      birthday = DateTime.now(),
+      hasAvatar = false;
 
   UserProfileModel.fromJson(Map<String, dynamic> json)
     : uid = json["uid"],
@@ -29,7 +32,8 @@ class UserProfileModel {
       name = json["name"],
       bio = json["bio"],
       link = json["link"],
-      birthday = DateTime.parse(json["birthday"]);
+      birthday = DateTime.parse(json["birthday"]),
+      hasAvatar = json["hasAvatar"] == "true";
 
   Map<String, String> toJson() {
     return {
@@ -39,6 +43,27 @@ class UserProfileModel {
       "bio": bio,
       "link": link,
       "birthday": birthday.toIso8601String(),
+      "hasAvatar": hasAvatar.toString(),
     };
+  }
+
+  UserProfileModel copyWith({
+    String? uid,
+    String? email,
+    String? name,
+    String? bio,
+    String? link,
+    DateTime? birthday,
+    bool? hasAvatar,
+  }) {
+    return UserProfileModel(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      bio: bio ?? this.bio,
+      link: link ?? this.link,
+      birthday: birthday ?? this.birthday,
+      hasAvatar: hasAvatar ?? this.hasAvatar,
+    );
   }
 }

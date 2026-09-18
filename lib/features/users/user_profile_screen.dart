@@ -60,7 +60,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            Avatar(name: data.name),
+                            Avatar(
+                              name: data.name,
+                              hasAvatar: data.hasAvatar,
+                              uid: data.uid,
+                            ),
                             Gaps.v12,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

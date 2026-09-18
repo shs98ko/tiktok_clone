@@ -13,8 +13,6 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
 
   @override
   FutureOr<UserProfileModel> build() async {
-    await Future.delayed(Duration(seconds: 5));
-
     _userRepository = ref.read(userRepo);
     _authRepository = ref.read(authRepo);
 
@@ -43,10 +41,17 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
       bio: "undefined",
       link: "undefined",
       birthday: form["birthday"],
+      hasAvatar: false,
     );
     state = AsyncValue.data(profile);
 
     await _userRepository.createProfile(profile);
+  }
+
+  Future<void> onAvatarUpload() async {
+    if (state.value == null) return;
+    state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
+    await _userRepository.updateUser(state.value!.uid, {"hasAvatar": true});
   }
 }
 
