@@ -63,7 +63,6 @@ class DefaultFirebaseOptions {
     projectId: 'tiktok-rf',
     storageBucket: 'tiktok-rf.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyApYOiQMoWOXMc7q1lEc9VfCzjgYn8IzwI',
     appId: '1:1067060142351:ios:74c9995adfb1fb4a981e7a',
