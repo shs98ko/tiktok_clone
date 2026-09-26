@@ -35,7 +35,7 @@ setGlobalOptions({ maxInstances: 10 });
 admin.initializeApp();
 
 export const onVideoCreated = onDocumentCreated(
-  "videos/{videoId}",
+  { document: "videos/{videoId}", memory: "1GiB" },
   async (event) => {
     const snapshot = event.data;
     if (!snapshot) return;
@@ -54,8 +54,20 @@ export const onVideoCreated = onDocumentCreated(
       `/tmp/${snapshot.id}.jpg`,
     ]);
     const storage = admin.storage();
-    await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
+    const [file, _] = await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
       destination: `thumbnails/${snapshot.id}.jpg`,
     });
+    await file.makePublic();
+    await snapshot.ref.update({ thumbnailUrl: file.publicUrl() });
+    const db = admin.firestore();
+    await db
+      .collection("users")
+      .doc(video.creatorUid)
+      .collection("videos")
+      .doc(snapshot.id)
+      .set({
+        thumbnailUrl: file.publicUrl(),
+        videoId: snapshot.id,
+      });
   },
 );
