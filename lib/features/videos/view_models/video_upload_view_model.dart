@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/authentication/repos/authentication_repo.dart';
+import 'package:tiktok_clone/features/users/view_models/users_view_model.dart';
+import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/repository/videos_repo.dart';
 
 class VideoUploadViewModel extends AsyncNotifier<void> {
@@ -13,15 +16,34 @@ class VideoUploadViewModel extends AsyncNotifier<void> {
     _repository = ref.read(videoRepo);
   }
 
-  Future<void> uploadVideo(File video) async {
+  Future<void> uploadVideo(File video, BuildContext context) async {
     final user = ref.read(authRepo).user;
-    state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await _repository.uploadVideoFile(video, user!.uid);
-    });
+    final userProfile = ref.read(usersProvider).value;
+    if (userProfile != null) {
+      state = AsyncValue.loading();
+      state = await AsyncValue.guard(() async {
+        final task = await _repository.uploadVideoFile(video, user!.uid);
+        if (task.metadata != null) {
+          await _repository.saveVideo(
+            VideoModel(
+              title: "From flutter",
+              description: "Hello yeah!",
+              fileUrl: await task.ref.getDownloadURL(),
+              thumbnailUrl: "",
+              creatorUid: user.uid,
+              likes: 0,
+              comments: 0,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              creator: userProfile.name,
+            ),
+          );
+          context.pushReplacement("/home");
+        }
+      });
+    }
   }
 }
 
-final videoUploadProvider = AsyncNotifierProvider<VideoUploadViewModel, void>(
+final uploadVideoProvider = AsyncNotifierProvider<VideoUploadViewModel, void>(
   () => VideoUploadViewModel(),
 );
