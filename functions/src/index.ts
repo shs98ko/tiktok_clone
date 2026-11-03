@@ -10,7 +10,10 @@
 import { setGlobalOptions } from "firebase-functions";
 // import {onRequest} from "firebase-functions/https";
 // import * as logger from "firebase-functions/logger";
-import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import {
+  onDocumentCreated,
+  onDocumentDeleted,
+} from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -69,5 +72,29 @@ export const onVideoCreated = onDocumentCreated(
         thumbnailUrl: file.publicUrl(),
         videoId: snapshot.id,
       });
+  },
+);
+
+export const onLikedCreated = onDocumentCreated(
+  "likes/{likeId}",
+  async (event) => {
+    const [videoId] = event.params.likeId.split("000");
+    await admin
+      .firestore()
+      .collection("videos")
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(1) });
+  },
+);
+
+export const onLikedRemoved = onDocumentDeleted(
+  "likes/{likeId}",
+  async (event) => {
+    const [videoId] = event.params.likeId.split("000");
+    await admin
+      .firestore()
+      .collection("videos")
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(-1) });
   },
 );
