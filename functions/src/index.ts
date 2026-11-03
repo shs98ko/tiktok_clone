@@ -78,23 +78,45 @@ export const onVideoCreated = onDocumentCreated(
 export const onLikedCreated = onDocumentCreated(
   "likes/{likeId}",
   async (event) => {
-    const [videoId] = event.params.likeId.split("000");
-    await admin
-      .firestore()
-      .collection("videos")
+    const db = admin.firestore();
+    const [videoId, userId] = event.params.likeId.split("000");
+
+    const videoRef = db.collection("videos").doc(videoId);
+    await videoRef.update({
+      likes: admin.firestore.FieldValue.increment(1),
+    });
+
+    // 영상 정보를 읽어서 유저의 likes 아래에 복사
+    const video = (await videoRef.get()).data();
+    if (!video) return;
+    await db
+      .collection("users")
+      .doc(userId)
+      .collection("likes")
       .doc(videoId)
-      .update({ likes: admin.firestore.FieldValue.increment(1) });
+      .set({
+        videoId,
+        thumbnailUrl: video.thumbnailUrl,
+      });
   },
 );
 
 export const onLikedRemoved = onDocumentDeleted(
   "likes/{likeId}",
   async (event) => {
-    const [videoId] = event.params.likeId.split("000");
-    await admin
-      .firestore()
+    const db = admin.firestore();
+    const [videoId, userId] = event.params.likeId.split("000");
+
+    await db
       .collection("videos")
       .doc(videoId)
       .update({ likes: admin.firestore.FieldValue.increment(-1) });
+
+    await db
+      .collection("users")
+      .doc(userId)
+      .collection("likes")
+      .doc(videoId)
+      .delete();
   },
 );
