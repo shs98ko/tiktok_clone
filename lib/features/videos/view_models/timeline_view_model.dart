@@ -9,15 +9,27 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
   late final VideosRepository _repository;
 
   List<VideoModel> _list = [];
+  Future<List<VideoModel>> _fetchVideos({int? lastItemCreatedAt}) async {
+    final result = await _repository.fetchVideos(
+      lastItemCreatedAt: lastItemCreatedAt,
+    );
+    final videos = result.docs.map((doc) => VideoModel.fromJson(doc.data()));
+    return videos.toList();
+  }
 
   //build메소드에서 우리가 원하는 api를 호출하고 데이터를 반환하면, 그 데이터는 우리의 porvider에 의해 expose됨
   @override
   FutureOr<List<VideoModel>> build() async {
     _repository = ref.read(videosRepo);
-    final result = await _repository.fetchVideos();
-    final newList = result.docs.map((doc) => VideoModel.fromJson(doc.data()));
-    _list = newList.toList();
+    _list = await _fetchVideos(lastItemCreatedAt: null);
     return _list;
+  }
+
+  Future<void> fetchNextPage() async {
+    final nextPage = await _fetchVideos(
+      lastItemCreatedAt: _list.last.createdAt,
+    );
+    state = AsyncValue.data([..._list, ...nextPage]);
   }
 }
 

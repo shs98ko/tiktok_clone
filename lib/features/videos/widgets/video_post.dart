@@ -50,8 +50,8 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _initVideoPlayer() async {
-    _videoPlayerController = VideoPlayerController.asset(
-      "assets/videos/test.mp4",
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.videoData.fileUrl),
     );
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
@@ -208,7 +208,7 @@ class VideoPostState extends ConsumerState<VideoPost>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "@{widget.videoData.creator}",
+                  "@${widget.videoData.creator}",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -250,7 +250,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                   backgroundColor: Colors.blueGrey,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/tiktok-abc-xyz.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-rf.firebasestorage.app/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
                   ),
                   child: Text(widget.videoData.creator),
                 ),
