@@ -7,6 +7,7 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/models/playback_config_model.dart';
 import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/features/videos/view_models/video_post_view_models.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_commu_button.dart';
@@ -47,6 +48,10 @@ class VideoPostState extends ConsumerState<VideoPost>
         widget.onVideoFinished();
       }
     }
+  }
+
+  void _onLikeTap() {
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
   }
 
   void _initVideoPlayer() async {
@@ -255,9 +260,12 @@ class VideoPostState extends ConsumerState<VideoPost>
                   child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
-                VideoCommuButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: "${widget.videoData.likes}",
+                GestureDetector(
+                  onTap: _onLikeTap,
+                  child: VideoCommuButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: "${widget.videoData.likes}",
+                  ),
                 ),
                 Gaps.v24,
                 GestureDetector(
