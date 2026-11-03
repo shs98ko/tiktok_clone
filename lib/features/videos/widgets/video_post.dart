@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/models/playback_config_model.dart';
+import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_caption.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
@@ -16,10 +17,12 @@ import 'package:visibility_detector/visibility_detector.dart';
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
+  final VideoModel videoData;
   const VideoPost({
     super.key,
     required this.onVideoFinished,
     required this.index,
+    required this.videoData,
   });
 
   @override
@@ -166,7 +169,10 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(color: Colors.black),
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
+                  ),
           ),
           Positioned.fill(child: GestureDetector(onTap: _togglePause)),
           Positioned.fill(
@@ -202,7 +208,7 @@ class VideoPostState extends ConsumerState<VideoPost>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "@gmapsfun",
+                  "@{widget.videoData.creator}",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -211,7 +217,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v8,
                 Text(
-                  "This is actually the place 😄",
+                  widget.videoData.description,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
@@ -244,21 +250,21 @@ class VideoPostState extends ConsumerState<VideoPost>
                   backgroundColor: Colors.blueGrey,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                    "https://avatars.githubusercontent.com/u/102948397?v=4",
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-abc-xyz.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
                   ),
-                  child: Text("Name"),
+                  child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
                 VideoCommuButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  text: "2.9M",
+                  text: "${widget.videoData.likes}",
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentTap(context),
                   child: VideoCommuButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: "33.0k",
+                    text: "${widget.videoData.comments}",
                   ),
                 ),
                 Gaps.v24,
